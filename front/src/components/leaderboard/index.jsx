@@ -2,13 +2,13 @@ import React from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { decrement } from '../../features/counterSlice';
 
-const About = () => {
+const Leaderboard = () => {
     const count = useSelector((state) => state.counter.value);
     const dispatch = useDispatch();
     
     return (
         <>
-            <h1>About</h1>
+            <h1>Leaderboard</h1>
             <div>
                 <span>{count}</span>
                 <button
@@ -23,4 +23,4 @@ const About = () => {
     );
 }
 
-export default About;
+export default Leaderboard;

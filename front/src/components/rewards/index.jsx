@@ -3,13 +3,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { increment } from '../../features/counterSlice';
 
 
-const Home = () => {
+const Rewards = () => {
     const count = useSelector((state) => state.counter.value);
     const dispatch = useDispatch();
 
     return (
         <>
-            <h1>Home</h1>
+            <h1>Rewards</h1>
             <div>
                 <button
                 aria-label="Increment value"
@@ -25,4 +25,4 @@ const Home = () => {
     );
 }
 
-export default Home;
+export default Rewards;
