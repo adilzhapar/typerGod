@@ -3,16 +3,23 @@ import {useState, useEffect} from 'react';
 import input from './input.txt';
 import './index.css';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { setWpm } from '../../features/wpmSlice';
+
 const Typing = () => {
+    const wpm = useSelector((state) => state.wpm.value);
+    const dispatch = useDispatch();
+
     const [inputWord, setInputWord] = useState(""); 
     const [words, setWords] = useState();
     const [counter, setCounter] = useState(0); // count how many words are typed
-    const [timer, setTimer] = useState({count: 30, time: 30}); // count will decrease
-    const [wpm, setWpm] = useState(0); 
+    const [timer, setTimer] = useState({count: 10, time: 10}); // count will decrease
+    // const [wpm, setWpm] = useState(0); 
     const [isActive, setIsActive] = useState(true);
     const [accuracy, setAccuracy] = useState();
     const [step, setStep] = useState(30);
     const [readyWords, setReadyWords] = useState();
+    const [sum, setSum] = useState(0);
 
     const setDefault = () => {
         setInputWord("");
@@ -91,14 +98,16 @@ const Typing = () => {
 
     useEffect(() => {
         handleTextRefresh();
+        // dispatch(setWpm(sum));
     }, []);
 
     if(timer.count <= 0){
         
         let cnt = words.filter((word) => word.class === "green" && word.id <= counter).length;
-        let sum = (60 / timer.time) * cnt;
+        setSum((60 / timer.time) * cnt);
         let acrcy = cnt / counter * 100;
-        setWpm(sum);
+        // setWpm(sum);
+        dispatch(setWpm(sum));
         console.log(wpm);
         if(acrcy === 100) {
             setAccuracy(acrcy);
@@ -128,9 +137,9 @@ const Typing = () => {
                 <input type="text" value={inputWord} onChange={handleInputWord} onKeyDown={handleSpace}/>
             </div>
             <button className="refresh-button" onClick={handleTextRefresh}>Refresh text</button>
-            <div>{timer.count}</div>
-            <div>WPM: {wpm}</div>
-            <div>Accuracy: {accuracy}%</div>
+            <p>{timer.count}</p>
+            <p>WPM: {wpm}</p>
+            <p>Accuracy: {accuracy}%</p>
         </div>
     );
 }
