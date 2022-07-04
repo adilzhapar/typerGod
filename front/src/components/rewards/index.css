@@ -1,0 +1,63 @@
+.top {
+    margin-top: 2vh;
+    margin-left: 2vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2vw;
+}
+
+#slogan {
+    font-family: sans-serif !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: rgb(203, 203, 203);
+    font-weight: 600;
+    font-size: 1.2vw !important;
+}
+
+h2 {
+    margin-top: 1.5vh;
+    margin-bottom: 1.5vh;
+}
+
+.statistics {
+    margin-left: 2vw;
+    margin-top: 10vh;
+    display: flex;
+    gap: 1.5vw;
+}
+
+.state {
+    background-color: #202A30;
+    border-radius: 15px;
+    width: 11vw;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-p {
+    background-color: #202A30 !important;
+    border: none;
+    border-radius: 15px;
+    font-size: 1.1vw !important;
+    font-family: sans-serif !important;
+    padding: 2vh 1vw 0 1vw;
+    color:rgb(203, 203, 203);
+}
+
+span {
+    font-size: 1.7vw;
+    font-weight: 700;
+    margin-left: 1.2vw;
+
+}
+
+
+#send {
+    width: 5vw;
+    border-radius: 10px;
+    /* margin: 4.5vh 0.5vw 0 0.2vw; */
+}
+

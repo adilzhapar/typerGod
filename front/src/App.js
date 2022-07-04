@@ -39,7 +39,7 @@ const Sidebar = () =>{
         <div className="links">
           <Link to="/" className="component-link-text">
             <div className="component-link">
-              <img src={rewardSvg} alt="rewardSvg" />
+              <img src={rewardSvg} alt="top1Svg" />
               Rewards
             </div>
           </Link>
