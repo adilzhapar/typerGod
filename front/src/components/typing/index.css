@@ -82,4 +82,22 @@ button:hover{
     font-size: 1.3vw;
 }
 
+select {
+    border: none;
+    background-color: #2B2BE7;
+    color: white;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 1.1vw;
+    padding: 3px;
+    font-weight: 700;
+    border-radius: 5px;
+    margin-top: 1vh;
+    
+
+}
+
+select:hover{
+    cursor: pointer;
+}
+
 

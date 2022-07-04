@@ -13,7 +13,7 @@ const Typing = () => {
     const [inputWord, setInputWord] = useState(""); 
     const [words, setWords] = useState();
     const [counter, setCounter] = useState(0); // count how many words are typed
-    const [timer, setTimer] = useState({count: 10, time: 10}); // count will decrease
+    const [timer, setTimer] = useState({count: 60, time: 60}); // count will decrease
     // const [wpm, setWpm] = useState(0); 
     const [isActive, setIsActive] = useState(true);
     const [accuracy, setAccuracy] = useState();
@@ -47,6 +47,7 @@ const Typing = () => {
         if(isActive) {
             handleTimer();
         }
+        // handleTimer();
         if(words[counter].name.indexOf(inputWord.trim()) !== 0){
             words[counter].class = "red";
         }else{
@@ -64,6 +65,12 @@ const Typing = () => {
             }
             setInputWord("");
             setCounter(counter + 1);
+        }
+    }
+
+    const handleEnter = (event) => {
+        if(event.keyCode === 13){
+            handleTextRefresh();
         }
     }
 
@@ -96,10 +103,18 @@ const Typing = () => {
         })
     }
 
+    const handleSetTimer = (x) => {
+        console.log(x);
+        setTimer({ count: parseInt(x), time: parseInt(x)});
+
+    }
+
     useEffect(() => {
         handleTextRefresh();
         // dispatch(setWpm(sum));
-    }, []);
+    }, [timer.time]);
+
+
 
     if(timer.count <= 0){
         
@@ -128,6 +143,8 @@ const Typing = () => {
 
     return (
         <div className="page">
+            <p>{timer.count}</p>
+            
             <div className={isActive ? "text": "not-text"}>
                 {readyWords?.map((word) => (
                     <p key={word.id} className={word.class}>{word.name}</p>
@@ -136,10 +153,20 @@ const Typing = () => {
             <div className="input-word">
                 <input type="text" value={inputWord} onChange={handleInputWord} onKeyDown={handleSpace}/>
             </div>
-            <button className="refresh-button" onClick={handleTextRefresh}>Refresh text</button>
-            <p>{timer.count}</p>
+            <button className="refresh-button" onClick={handleTextRefresh} onKeyDown={handleEnter}>Refresh text</button>
+            
             <p>WPM: {wpm}</p>
             <p>Accuracy: {accuracy}%</p>
+            <select id="wpm-select" 
+            onChange={e => {
+                    handleSetTimer(e.target.value);
+                }}>
+                <option value="60">60</option>
+                <option value="30">30</option>
+                <option value="15">15</option>
+            </select>
+
+            
         </div>
     );
 }
