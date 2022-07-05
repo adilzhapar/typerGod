@@ -1,5 +1,5 @@
 import React from "react";
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import input from './input.txt';
 import './index.css';
 
@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setWpm } from '../../features/wpmSlice';
 
 const Typing = () => {
+    const inputReference = useRef(null);
     const wpm = useSelector((state) => state.wpm.value);
     const dispatch = useDispatch();
 
@@ -71,6 +72,7 @@ const Typing = () => {
     const handleEnter = (event) => {
         if(event.keyCode === 13){
             handleTextRefresh();
+            inputReference.current.focus();
         }
     }
 
@@ -111,6 +113,7 @@ const Typing = () => {
 
     useEffect(() => {
         handleTextRefresh();
+        inputReference.current.focus();
         // dispatch(setWpm(sum));
     }, [timer.time]);
 
@@ -151,7 +154,7 @@ const Typing = () => {
                 ))}
             </div>
             <div className="input-word">
-                <input type="text" value={inputWord} onChange={handleInputWord} onKeyDown={handleSpace}/>
+                <input type="text" value={inputWord} ref={inputReference} onChange={handleInputWord} onKeyDown={handleSpace}/>
             </div>
             <button className="refresh-button" onClick={handleTextRefresh} onKeyDown={handleEnter}>Refresh text</button>
             

@@ -57,6 +57,7 @@ const Sidebar = () =>{
               Typing
             </div>
           </Link>
+          
         </div>
       
     </div>
@@ -70,6 +71,7 @@ const AppWrapper = () => {
     <Router>
       <div className="all">
         <Sidebar className="sidebar"/>
+        <div style={{"border-left": "1px solid white", "height": "100vh"}}></div>
         <App />
       </div>
     </Router>

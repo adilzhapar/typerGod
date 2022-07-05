@@ -1,26 +1,21 @@
 import React from "react";
-import { useSelector, useDispatch } from 'react-redux';
-import { decrement } from '../../features/counterSlice';
+import './index.css';
+import top1 from '../../img/top1.svg';
+
 
 const Leaderboard = () => {
-    const count = useSelector((state) => state.counter.value);
-    const wpm = useSelector((state) => state.wpm.value);
-    const dispatch = useDispatch();
     
     return (
-        <>
-            <h1>Leaderboard</h1>
-                {/* <span>{count}</span>
-                <button
-                aria-label="Decrement value"
-                onClick={() => dispatch(decrement())}
-                > */}
-                {/* Decrement
-                </button> */}
-                <span>{wpm}</span>
+        <div className="leaderboard-component">
+            <div className="top">
+                <img src={top1} alt="top1" />
+                <div className="txt">
+                    <h2>Leaderboard</h2>
+                    <p id="slogan"> TOP-10 participants</p>
+                </div>
+            </div>
             
-        </>
-
+        </div>
     );
 }
 
