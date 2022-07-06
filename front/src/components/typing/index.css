@@ -1,4 +1,5 @@
 .page {
+    width: 78vw;
     margin-top: 7vh;
     display: flex;
     align-items: center;
@@ -50,9 +51,9 @@ p {
 
 
 input {
-    padding: 1vh;
-    margin: 3vh;
-    width: 60vw;
+    padding: 1vh;  
+    margin: 3vh 0.5vw 3vh 0;
+    width: 100%;
     outline: none;
     border: 1px white solid;
     background-color: #121212;
@@ -66,12 +67,12 @@ input {
 button {
     margin-top: 2vh;
     margin-bottom: 2vh;
-    margin-left: 1vw;
+    /* margin-left: 1vw; */
     background-color: #2B2BE7;
-    border-radius: 5px;
+    border-radius: 10px;
     color: white;
     width: 10vw;
-    height: 7vh;
+    height: 7.2vh;
     font-size: 1.2vw;
     font-weight: 700;
     border: none;
@@ -91,13 +92,35 @@ select {
     padding: 3px;
     font-weight: 700;
     border-radius: 5px;
-    margin-top: 1vh;
-    
-
+    margin-bottom: 1vh;
 }
 
 select:hover{
     cursor: pointer;
 }
 
+.time{
+    width: 60vw;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 
+.set-time {
+    display: flex;
+    align-items: center;
+}
+
+
+.input-word {
+    width: 61vw;
+    display: flex;
+    align-items: center;
+    /* padding: 1vw; */
+}
+
+.inp-bar-elem {
+    width: 6vw;
+    margin: 0.5vh;
+    /* height: 40px; */
+}

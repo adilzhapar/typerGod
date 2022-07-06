@@ -13,7 +13,7 @@ const Rewards = () => {
     return (
         <div className="reward-component">
             <div className="top">
-                <img src={gift} alt="gift" />
+                <img src={gift} alt="gift"/>
                 <div className="txt">
                     <h2>Rewards</h2>
                     <p id="slogan">Type faster, earn more!</p>
