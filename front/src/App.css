@@ -44,14 +44,14 @@ html {
     font-size: 1.25vw;
 }
 .component-link-text:hover {
-    font-size: 1.75vw;
+    font-size: 20px;
 }
 
 .component-link-text {
     text-decoration: none;
     color: white;
     font-weight: 300;
-    font-size: 1.5vw;
+    font-size: 18px;
     text-align: center;
     /* margin: 1vh; */
 }

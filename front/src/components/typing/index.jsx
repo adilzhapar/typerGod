@@ -25,6 +25,7 @@ const Typing = () => {
     const [step, setStep] = useState(30);
     const [readyWords, setReadyWords] = useState();
     const [running, setRunning] = useState(false);
+    
 
 
     const setDefault = () => {
@@ -42,6 +43,11 @@ const Typing = () => {
         if(isActive) {
             setRunning(true);
         }
+        // if(words[counter].name.substring(0, inputWord.trim().length ) != inputWord.trim()) {
+        //     words[counter].class = "red";
+        // }else{
+        //     words[counter].class = "default";
+        // }
         if(words[counter].name.indexOf(inputWord.trim()) !== 0){
             words[counter].class = "red";
         }else{
@@ -52,13 +58,18 @@ const Typing = () => {
 
     const handleSpace = (event) => {
         if (event.keyCode === 32) {
-            if(inputWord.trim() === words[counter].name){
-                words[counter].class = "green";
+            if(inputWord.trim() !== ""){
+                if(inputWord.trim() === words[counter].name){
+                    words[counter].class = "green";
+                }else{
+                    words[counter].class = "red";
+                }
+                setInputWord("");
+                setCounter(counter + 1);
             }else{
-                words[counter].class = "red";
+                setInputWord("");
             }
-            setInputWord("");
-            setCounter(counter + 1);
+            
         }
     }
 
@@ -103,7 +114,7 @@ const Typing = () => {
     const [swp, setSwp] = useState(0);
     
     const handleSetTimer = () => {
-        const times = [60, 30, 15];
+        const times = [30, 15, 60];
         // console.log(x);
         // setTimer({ count: parseInt(x), time: parseInt(x)});
         
@@ -111,9 +122,12 @@ const Typing = () => {
         // console.log(`SWP: ${swp}`);
         // console.log(times[swp % 3]);
         setTime(times[swp % 3]);
-        setTimeAmount(times[swp % 3]);
-
+        setTimeAmount(times[swp % 3]);      
     }
+
+
+    
+    
 
     useEffect(() => {
         handleTextRefresh();
