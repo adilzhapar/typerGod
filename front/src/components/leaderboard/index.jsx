@@ -16,6 +16,8 @@ const Leaderboard = () => {
                 </div>
             </div>
             <img src={Aidar} alt="Aidar" style={{"width": "50vw", "marginLeft": "20px"}}/>
+            
+            <h1 style={{"marginLeft": "20px"}}>Coming soon...</h1>
         </div>
     );
 }
