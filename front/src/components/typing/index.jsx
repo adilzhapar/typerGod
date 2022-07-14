@@ -7,11 +7,13 @@ import stopwatchSvg from '../../img/stopwatch.svg';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { setWpm } from '../../features/wpmSlice';
+import { addPoint } from '../../features/pendingSlice';
 
 const Typing = () => {
     const inputReference = useRef(null);
     const wpm = useSelector((state) => state.wpm.value);
     const dispatch = useDispatch();
+    const pending = useSelector((state) => state.pending.value);
 
     const [inputWord, setInputWord] = useState(""); 
     const [words, setWords] = useState();
@@ -25,6 +27,7 @@ const Typing = () => {
     const [step, setStep] = useState(30);
     const [readyWords, setReadyWords] = useState();
     const [running, setRunning] = useState(false);
+    const [points, setPoints] = useState(0);
     
 
 
@@ -125,38 +128,35 @@ const Typing = () => {
         setTimeAmount(times[swp % 3]);      
     }
 
-
-    
-    
-
     useEffect(() => {
         handleTextRefresh();
         inputReference.current.focus();
         
     }, [timeAmount]);
-
-
-
-
+    
     if(time <= 0){
-        
+    
         let cnt = words.filter((word) => word.class === "green" && word.id <= counter).length;
         
         let acrcy = cnt / counter * 100;
-        
+
         dispatch(setWpm((60 / timeAmount) * cnt));
-        console.log(wpm);
+        setPoints(parseInt((60 / timeAmount) * cnt / 10));
+        
+        dispatch(addPoint(parseInt((60 / timeAmount) * cnt / 10)));
+        
+    
         if(acrcy === 100) {
             setAccuracy(acrcy);
         }else{
             setAccuracy(acrcy.toPrecision(2));
         }
-        
-        
         setTime(timeAmount);
         setIsActive(false);
         setRunning(false);
     }
+
+
 
     if(counter > step){
         setReadyWords(words.filter((word) => word.id > step && word.id <= step + 30))
@@ -206,6 +206,7 @@ const Typing = () => {
             
             <p>WPM: {wpm}</p>
             <p>Accuracy: {accuracy}%</p>
+            <p>You have earned: {points}</p>
 
             
         </div>

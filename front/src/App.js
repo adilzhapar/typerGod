@@ -4,6 +4,7 @@ import logo from './img/logo.svg';
 import rewardSvg from './img/reward.svg';
 import leaderboardSvg from './img/leaderboard.svg';
 import typeSvg from './img/type.svg';
+import { useState, useEffect } from 'react';
 
 
 
@@ -27,14 +28,91 @@ const App = () =>{
   return routes;
 };
 
-const Sidebar = () =>{
+const Sidebar = () => {
+  const [currentAccount, setCurrentAccount] = useState("");
+
+  const checkIfWalletIsConnected = async () => {
+    try {
+      const { ethereum } = window;
+
+      if (!ethereum) {
+        console.log("Make sure you have metamask!");
+        return;
+      } else {
+        console.log("We have the ethereum object", ethereum);
+      }
+
+      /*
+      * Check if we're authorized to access the user's wallet
+      */
+      const accounts = await ethereum.request({ method: "eth_accounts" });
+
+      if (accounts.length !== 0) {
+        const account = accounts[0];
+        console.log("Found an authorized account:", account);
+        setCurrentAccount(account)
+      } else {
+        console.log("No authorized account found")
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const connectWallet = async () => {
+    try {
+      const { ethereum } = window;
+
+      if (!ethereum) {
+        alert("Get MetaMask!");
+        return;
+      }
+
+      const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+
+      console.log("Connected", accounts[0]);
+      setCurrentAccount(accounts[0]);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleQuit = async () => {
+    try {
+      const { ethereum } = window;
+
+      if (!ethereum) {
+        alert("Get MetaMask!");
+        return;
+      }
+
+      const accounts = await ethereum.request({ method: "eth_requestAccounts" });
+
+      console.log("Disconnected", accounts[0]);
+      setCurrentAccount("");
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    checkIfWalletIsConnected();
+  }, [])
+
   return (
     <div className='sidebar'>
         <Link to="/">
           <img src={logo} alt="logo" style={{"width": "15vw", "marginTop": "3vh"}}/>
         </Link>
 
-        <button id="connect-button">Please, connect the wallet</button>
+        {!currentAccount && (
+          <button id="connect-button" onClick={connectWallet}>Please, connect the wallet</button>
+          
+          )}
+        {currentAccount && (
+          <button id="connect-button" onClick={handleQuit}>Log out</button>
+          
+        )}
 
         <div className="links">
           <Link to="/" className="component-link-text">
@@ -71,7 +149,7 @@ const AppWrapper = () => {
     <Router>
       <div className="all">
         <Sidebar className="sidebar"/>
-        <div style={{"borderLeft": "1px solid white", "height": "100vh"}}></div>
+        <div style={{"borderLeft": "0.3px solid gray", "height": "100vh"}}></div>
         <App />
       </div>
     </Router>

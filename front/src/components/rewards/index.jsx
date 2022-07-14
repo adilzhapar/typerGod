@@ -2,13 +2,16 @@ import React from "react";
 import gift from '../../img/gift.svg';
 import send from '../../img/send.svg';
 import './index.css';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 
 const Rewards = () => {
     const wpm = useSelector((state) => state.wpm.value);
+    const pending = useSelector((state) => state.pending.value);
     // const count = useSelector((state) => state.counter.value);
-    // const dispatch = useDispatch();
+
+    
+    
 
     return (
         <div className="reward-component">
@@ -31,7 +34,7 @@ const Rewards = () => {
                 </div>
                 <div className="state">
                     <p className="stat-p">Pending</p>
-                    <span id="pending">0</span>
+                    <span id="pending">{pending}</span>
                 
                 </div>
                 <button id="send"><img src={send} alt="send" style={{"marginTop": "0.5vh"}}/></button>
