@@ -1,5 +1,5 @@
 import React from "react";
-import {useState, useEffect, useRef} from 'react';
+import { useState, useEffect, useRef } from 'react';
 import input from './input.txt';
 import './index.css';
 import sendSvg from '../../img/send.svg';
@@ -14,7 +14,7 @@ const Typing = () => {
     const wpm = useSelector((state) => state.wpm.value);
     const dispatch = useDispatch();
 
-    const [inputWord, setInputWord] = useState(""); 
+    const [inputWord, setInputWord] = useState("");
     const [words, setWords] = useState();
     const [counter, setCounter] = useState(0); // count how many words are typed
     const [timeAmount, setTimeAmount] = useState(60); // time will decrease
@@ -27,7 +27,8 @@ const Typing = () => {
     const [readyWords, setReadyWords] = useState();
     const [running, setRunning] = useState(false);
     const [points, setPoints] = useState(0);
-    
+
+    const currentAccount = useSelector((state) => state.currentAccount.value);  
 
 
     const setDefault = () => {
@@ -42,7 +43,7 @@ const Typing = () => {
 
     const handleInputWord = (event) => {
         setInputWord(event.target.value);
-        if(isActive) {
+        if (isActive) {
             setRunning(true);
         }
         // if(words[counter].name.substring(0, inputWord.trim().length ) != inputWord.trim()) {
@@ -50,104 +51,104 @@ const Typing = () => {
         // }else{
         //     words[counter].class = "default";
         // }
-        if(words[counter].name.indexOf(inputWord.trim()) !== 0){
+        if (words[counter].name.indexOf(inputWord.trim()) !== 0) {
             words[counter].class = "red";
-        }else{
+        } else {
             words[counter].class = "default";
         }
-        
+
     }
 
     const handleSpace = (event) => {
         if (event.keyCode === 32) {
-            if(inputWord.trim() !== ""){
-                if(inputWord.trim() === words[counter].name){
+            if (inputWord.trim() !== "") {
+                if (inputWord.trim() === words[counter].name) {
                     words[counter].class = "green";
-                }else{
+                } else {
                     words[counter].class = "red";
                 }
                 setInputWord("");
                 setCounter(counter + 1);
-            }else{
+            } else {
                 setInputWord("");
             }
-            
+
         }
     }
 
     const handleEnter = (event) => {
-        if(event.keyCode === 13){
+        if (event.keyCode === 13) {
             handleTextRefresh();
 
-            inputReference.current.focus();
+            // inputReference.current.focus();
         }
     }
 
     const handleTextRefresh = () => {
         fetch(input)
-            .then(function(res){
+            .then(function (res) {
                 return res.text();
             }).then(function (content) {
 
-                
-            const arr = content.split(/\r?\n/);
-            
-            const shuffledArr = arr.sort((a, b) => 0.5 - Math.random());
-            
-            let obj = [];
 
-            for(let i = 0; i < 200; i++){
-                obj.push({
-                    id: i,
-                    name: shuffledArr[i],
-                    class: ""
-                });
-            }
+                const arr = content.split(/\r?\n/);
 
-            setDefault();
-            setWords(obj);
-            setReadyWords(obj.filter((word) => word.id <= step));
-            
-            
-        })
+                const shuffledArr = arr.sort((a, b) => 0.5 - Math.random());
+
+                let obj = [];
+
+                for (let i = 0; i < 200; i++) {
+                    obj.push({
+                        id: i,
+                        name: shuffledArr[i],
+                        class: ""
+                    });
+                }
+
+                setDefault();
+                setWords(obj);
+                setReadyWords(obj.filter((word) => word.id <= step));
+
+
+            })
     }
 
 
     const [swp, setSwp] = useState(0);
-    
+
     const handleSetTimer = () => {
         const times = [30, 15, 60];
         // console.log(x);
         // setTimer({ count: parseInt(x), time: parseInt(x)});
-        
+
         setSwp((swp + 1) % 3);
         // console.log(`SWP: ${swp}`);
         // console.log(times[swp % 3]);
         setTime(times[swp % 3]);
-        setTimeAmount(times[swp % 3]);      
+        setTimeAmount(times[swp % 3]);
     }
 
     useEffect(() => {
         handleTextRefresh();
-        inputReference.current.focus();
-        
+        // inputReference.current.focus();
+
     }, [timeAmount]);
-    
-    if(time <= 0){
-    
+
+    if (time <= 0) {
+
         let cnt = words.filter((word) => word.class === "green" && word.id <= counter).length;
-        
+
         let acrcy = cnt / counter * 100;
 
         dispatch(setWpm((60 / timeAmount) * cnt));
         setPoints(parseInt((60 / timeAmount) * cnt / 10));
-        
+
         dispatch(addPoint(parseInt((60 / timeAmount) * cnt / 10)));
-        
-    
-        if(acrcy === 100) {
+
+
+        if (acrcy === 100) {
             setAccuracy(acrcy);
-        }else{
+        } else {
             setAccuracy(acrcy.toPrecision(2));
         }
         setTime(timeAmount);
@@ -157,7 +158,7 @@ const Typing = () => {
 
 
 
-    if(counter > step){
+    if (counter > step) {
         setReadyWords(words.filter((word) => word.id > step && word.id <= step + 30))
         setStep(step + 30);
     }
@@ -166,48 +167,54 @@ const Typing = () => {
     useEffect(() => {
         let interval;
         if (running) {
-        interval = setInterval(() => {
-            
-            setTime( (prevTime) => prevTime - 1);
-        }, 1000);
+            interval = setInterval(() => {
+
+                setTime((prevTime) => prevTime - 1);
+            }, 1000);
         } else if (!running) {
-        clearInterval(interval);
+            clearInterval(interval);
         }
         return () => clearInterval(interval);
     }, [running]);
 
+
     return (
         <div className="page">
+        {currentAccount && (
+            <>
             <p>{time}</p>
-            
-            <div className={isActive ? "text": "not-text"}>
+
+            <div className={isActive ? "text" : "not-text"}>
                 {readyWords?.map((word) => (
                     <p key={word.id} className={word.class}>{word.name}</p>
                 ))}
             </div>
             <div className="input-word">
-                <input type="text" value={inputWord} ref={inputReference} onChange={handleInputWord} onKeyDown={handleSpace}/>
-                <button 
-                className="inp-bar-elem" 
-                onClick={handleTextRefresh} 
-                onKeyDown={handleEnter}>
+                <input type="text" value={inputWord} ref={inputReference} onChange={handleInputWord} onKeyDown={handleSpace} />
+                <button
+                    className="inp-bar-elem"
+                    onClick={handleTextRefresh}
+                    onKeyDown={handleEnter}>
                     <img src={sendSvg} alt="reload" />
                 </button>
 
-                <button 
-                className="inp-bar-elem" 
-                onClick={handleSetTimer}
+                <button
+                    className="inp-bar-elem"
+                    onClick={handleSetTimer}
                 >
                     <img src={stopwatchSvg} alt="time" />
                 </button>
-                
+
             </div>
-            
+
             <p>WPM: {wpm}</p>
             <p>Accuracy: {accuracy}%</p>
             <p>You have earned: {points}</p>
-
-            
+            </>
+        )}
+        {!currentAccount && (
+            <h2>Please, connect the wallet</h2>
+        )}
         </div>
     );
 }

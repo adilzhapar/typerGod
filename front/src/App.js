@@ -5,7 +5,8 @@ import rewardSvg from './img/reward.svg';
 import leaderboardSvg from './img/leaderboard.svg';
 import typeSvg from './img/type.svg';
 import { useState, useEffect } from 'react';
-import abi from "./utils/TyperGod.json";
+import {useSelector, useDispatch} from 'react-redux';
+import { setCurrentAccount } from './features/accountSlice';
 
 
 
@@ -31,11 +32,8 @@ const App = () =>{
 };
 
 const Sidebar = () => {
-  const [currentAccount, setCurrentAccount] = useState("");
-  const contractAddress = "0xd3F1319F7b50a8ea22A36F7A2625d44310aeebf5";
-
-  const contractABI = abi.abi;
-
+  const currentAccount = useSelector((state) => state.currentAccount.value);
+  const dispatch = useDispatch();
 
 
   const checkIfWalletIsConnected = async () => {
@@ -57,7 +55,7 @@ const Sidebar = () => {
       if (accounts.length !== 0) {
         const account = accounts[0];
         console.log("Found an authorized account:", account);
-        setCurrentAccount(account)
+        dispatch(setCurrentAccount(account));
       } else {
         console.log("No authorized account found")
       }
@@ -78,7 +76,8 @@ const Sidebar = () => {
       const accounts = await ethereum.request({ method: "eth_requestAccounts" });
 
       console.log("Connected", accounts[0]);
-      setCurrentAccount(accounts[0]);
+
+      dispatch(setCurrentAccount(accounts[0]));
     } catch (error) {
       console.log(error)
     }
@@ -96,7 +95,7 @@ const Sidebar = () => {
       const accounts = await ethereum.request({ method: "eth_requestAccounts" });
 
       console.log("Disconnected", accounts[0]);
-      setCurrentAccount("");
+      dispatch(setCurrentAccount(""));
     } catch (error) {
       console.log(error)
     }
@@ -113,7 +112,7 @@ const Sidebar = () => {
         </Link>
 
         {!currentAccount && (
-          <button id="connect-button" onClick={connectWallet}>Please, connect the wallet</button>
+          <button id="connect-button" onClick={connectWallet}>Connect the wallet</button>
           
           )}
         {currentAccount && (

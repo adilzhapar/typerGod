@@ -17,6 +17,7 @@ const Rewards = () => {
     const pending = useSelector((state) => state.pending.value);
     const [onChain, setOnChain] = useState(0);
     const dispatch = useDispatch();
+    const currentAccount = useSelector((state) => state.currentAccount.value);
     // dispatch(setPending(Number(items)));
     // const count = useSelector((state) => state.counter.value);
 

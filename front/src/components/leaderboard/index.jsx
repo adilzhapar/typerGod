@@ -4,40 +4,22 @@ import top1 from "../../img/top1.svg";
 import { useState, useEffect } from "react";
 import abi from "../../utils/TyperGod.json";
 import { ethers } from "ethers";
+import {useSelector} from 'react-redux';
 
 const Leaderboard = () => {
-    const [currentAccount, setCurrentAccount] = useState("");
+    const currentAccount = useSelector((state) => state.currentAccount.value);
+    // const dispatch = useDispatch();
     const [leaders, setLeaders] = useState([]);
     const contractAddress = "0xd3F1319F7b50a8ea22A36F7A2625d44310aeebf5";
 
     const contractABI = abi.abi;
 
-    const checkIfWalletIsConnected = async () => {
-        try {
-            const { ethereum } = window;
-
-            if (!ethereum) {
-                console.log("Make sure you have metamask!");
-                return;
-            } else {
-                console.log("We have the ethereum object in Leaderboard", ethereum);
-            }
-
-            const accounts = await ethereum.request({ method: "eth_accounts" });
-
-            if (accounts.length !== 0) {
-                const account = accounts[0];
-                console.log("Found an authorized account:", account);
-                setCurrentAccount(account);
-                getAllLeaders();
-            } else {
-                console.log("No authorized account found");
-            }
-
-        } catch (error) {
-            console.log(error);
+    useEffect(() => {
+        if(currentAccount){
+            getAllLeaders();
         }
-    };
+
+    }, [])
 
     const getAllLeaders = async () => {
         try {
@@ -71,9 +53,9 @@ const Leaderboard = () => {
         }
     };
 
-    useEffect(() => {
-        checkIfWalletIsConnected();
-    }, []);
+    // useEffect(() => {
+    //     checkIfWalletIsConnected();
+    // }, []);
 
     return (
         <div className="leaderboard-component">
