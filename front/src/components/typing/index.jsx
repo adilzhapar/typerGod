@@ -13,7 +13,6 @@ const Typing = () => {
     const inputReference = useRef(null);
     const wpm = useSelector((state) => state.wpm.value);
     const dispatch = useDispatch();
-    const pending = useSelector((state) => state.pending.value);
 
     const [inputWord, setInputWord] = useState(""); 
     const [words, setWords] = useState();

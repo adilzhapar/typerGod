@@ -5,6 +5,8 @@ import rewardSvg from './img/reward.svg';
 import leaderboardSvg from './img/leaderboard.svg';
 import typeSvg from './img/type.svg';
 import { useState, useEffect } from 'react';
+import abi from "./utils/TyperGod.json";
+
 
 
 
@@ -30,6 +32,11 @@ const App = () =>{
 
 const Sidebar = () => {
   const [currentAccount, setCurrentAccount] = useState("");
+  const contractAddress = "0xd3F1319F7b50a8ea22A36F7A2625d44310aeebf5";
+
+  const contractABI = abi.abi;
+
+
 
   const checkIfWalletIsConnected = async () => {
     try {

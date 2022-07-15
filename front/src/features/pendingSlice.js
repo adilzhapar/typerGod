@@ -10,9 +10,12 @@ export const pendingSlice = createSlice({
     reducers: {
         addPoint: (state, action) => {
             state.value += action.payload;
+        },
+        setPending: (state, action) => {
+            state.value = action.payload;
         }
     }
 })
 
-export const {addPoint} = pendingSlice.actions
+export const {addPoint, setPending} = pendingSlice.actions
 export default pendingSlice.reducer
