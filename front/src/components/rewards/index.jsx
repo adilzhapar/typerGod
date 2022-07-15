@@ -45,6 +45,7 @@ const Rewards = () => {
             } else {
                 console.log("No authorized account found");
             }
+            handleOnChain();
 
         } catch (error) {
             console.log(error);
