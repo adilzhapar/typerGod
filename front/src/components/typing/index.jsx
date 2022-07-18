@@ -80,7 +80,7 @@ const Typing = () => {
         if (event.keyCode === 13) {
             handleTextRefresh();
 
-            // inputReference.current.focus();
+            inputReference.current.focus();
         }
     }
 
@@ -130,7 +130,7 @@ const Typing = () => {
 
     useEffect(() => {
         handleTextRefresh();
-        // inputReference.current.focus();
+        inputReference.current.focus();
 
     }, [timeAmount]);
 

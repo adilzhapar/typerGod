@@ -135,6 +135,15 @@ const Rewards = () => {
                 <button id="send" onClick={handleTransaction}><img src={send} alt="send" style={{ "marginTop": "0.5vh" }} /></button>
             </div>
 
+            <h3 style={{"marginLeft": "20px"}}>Project in development...</h3>
+            <h4 style={{"marginLeft": "20px"}}>Instructions:</h4>
+            <ul style={{"marginLeft": "20px"}}>
+                <li>Install Metamask extension</li>
+                <li>Connect to Rinkeby testnet</li>
+                <li>take 0.1 Ether from rinkeby faucet (for gas)</li>
+                <li>Type and earn!</li>
+            </ul>
+
         </div>
 
     );
