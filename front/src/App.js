@@ -24,7 +24,7 @@ import Rewards from './components/rewards';
 import Typing from './components/typing';
 import { current } from '@reduxjs/toolkit';
 
-const BASE_URL = 'http://localhost:8080';
+const BASE_URL = process.env.MONGODB_URI;
 
 const App = () => {
   let routes = useRoutes([

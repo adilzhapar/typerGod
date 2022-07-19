@@ -176,10 +176,6 @@ const Typing = () => {
             
             dispatch(setWpm(parseInt(WpmSum / attempts)));
     
-            // console.log(Wpm);
-            // console.log(Attempts);
-            // console.log(Pending);
-            // console.log(Highscore);
             axios.put(`${BASE_URL}/users/${currentAccount}`,
             {
                 WpmSum,
