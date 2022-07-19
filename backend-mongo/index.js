@@ -1,7 +1,6 @@
 import express, { request } from 'express';
 import bodyParser from 'body-parser';
 import {connect, getDB} from './db.js';
-import {ObjectId} from 'mongodb';
 
 const app = express();
 const port = 8080;
@@ -18,47 +17,116 @@ app.use(function(req, res, next) {
     next();
 });
 
-// create new person
+// create new person (connect wallet)
 app.post('/users', (req, res) => {  
-    const {address, WpmSum, attempts, highscore} = req.body;
+    const {address, WpmSum, attempts, highscore, pending} = req.body;
 
     getDB()
     .collection('users')
-    .insertOne({'address': address, 'WpmSum': WpmSum, 'attempts': attempts, 'highscore': highscore}, (err, result) => {
-        if(err) {
-            res.status(500).send({err: err});
+    .insertOne({'_id': address, 'WpmSum': WpmSum, 'attempts': attempts, 'highscore': highscore, 'pending': pending}, (err, result) => {
+        // getDB().collection('users').createIndex({'_id': address}, {unique: true});
+        if (err) {
+            res.status(500).json({ err: err });
             return;
         }
         res.status(200).send(result);
     })
+    // .createIndex({'address': address}, {unique: true});
 
+    
 });
 
 
-// update person
+// update person (every session of typing)
 app.put('/users/:address', (req, res) => {
-    const {WpmSum, attempts, highscore} = req.body;
+    const {WpmSum, attempts, highscore, pending} = req.body;
     const { address } = req.params;
 
     getDB()
     .collection('users').updateOne(
         {
-            _id: new ObjectId(id),
+            _id: address,
         },
         {
             $set: {
-                avg, 
-                highscore
+                WpmSum,
+                attempts,
+                highscore,
+                pending
             }
+        },
+        (err, result) => {
+            if (err) {
+                res.status(500).json({ err: err });
+                return;
+            }
+            res.status(200).send(result);
         }
     )
+    
 })
 
-// get One person
+// get One person (each refresh, connection)
+app.get('/users/:address', (req, res) => {
+    const {address} = req.params;
+    getDB()
+    .collection('users')
+    .find({_id: address})
+    .toArray((err, result) => {
+        if (err) {
+            res.status(500).json({ err: err });
+            return;
+        }
+        res.status(200).send(result);
+    });
+})
 
-// get leaderboard by avg
+
+// get all users
+app.get('/users', (req, res) => {
+    getDB()
+    .collection('users')
+    .find({})
+    .toArray((err, result) => {
+        if (err) {
+            res.status(500).json({ err: err });
+            return;
+        }
+        res.status(200).send(result);
+    });
+})
+
+// Delete one user
+app.delete('/users/:address', (req, res) => {
+    const {address} = req.params;
+    // console.log(typeof(address));
+    getDB()
+    .collection('tasks')
+    .deleteOne({ _id: address }, (err, result) => {
+        if (err) {
+            res.status(500).json({ err: err });
+            return;   
+        }
+        res.status(200).send(result);
+    });
+})
 
 // get leaderboard by highscore
+app.get('/highscore', (req, res) => {
+    getDB()
+    .collection('users')
+    .find({})
+    .sort({highscore: -1})
+    .toArray((err, result) => {
+        if (err) {
+            res.status(500).json({ err: err });
+            return;
+        }
+        res.status(200).send(result);
+    });
+})
+
+// get leaderboard by avg
 
 
 

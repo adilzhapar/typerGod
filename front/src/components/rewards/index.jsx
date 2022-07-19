@@ -7,8 +7,9 @@ import { setPending } from '../../features/pendingSlice';
 
 import abi from "../../utils/TyperGod.json";
 import { ethers } from "ethers";
+import axios from "axios";
 
-
+const BASE_URL = "http://localhost:8080";
 
 // const items = JSON.parse(localStorage.getItem('pending')) || 0;
 
@@ -18,10 +19,7 @@ const Rewards = () => {
     const [onChain, setOnChain] = useState(0);
     const dispatch = useDispatch();
     const currentAccount = useSelector((state) => state.currentAccount.value);
-    // dispatch(setPending(Number(items)));
-    // const count = useSelector((state) => state.counter.value);
 
-    // localStorage.setItem('pending', JSON.stringify(pending));
     const contractAddress = "0xd3F1319F7b50a8ea22A36F7A2625d44310aeebf5";
 
     const contractABI = abi.abi;
@@ -70,6 +68,26 @@ const Rewards = () => {
                     await waveTxn.wait();
                     console.log("Mined -- ", waveTxn.hash);
                     handleOnChain();
+
+                    let WpmSum, attempts, highscore;
+                    axios.get(`${BASE_URL}/users/${currentAccount}`).then((response) => {
+                        WpmSum = response.data[0].WpmSum;
+                        attempts = response.data[0].attempts;
+                        highscore = response.data[0].highscore;
+
+                        axios.put(`${BASE_URL}/users/${currentAccount}`,
+                            {
+                                WpmSum,
+                                attempts,
+                                highscore,
+                                "pending" : 0,
+                            })
+                            .then((response) => {
+                                console.log(response);
+                            })
+                    });
+
+
                     dispatch(setPending(0));
 
                 } else {
@@ -91,7 +109,7 @@ const Rewards = () => {
                 const provider = new ethers.providers.Web3Provider(ethereum);
                 const signer = provider.getSigner();
                 const typerGodContract = new ethers.Contract(contractAddress, contractABI, signer);
-                
+
                 const tokens = await typerGodContract.getTokens();
                 // console.log(tokens);
                 setOnChain(parseInt(String(tokens)));
@@ -135,9 +153,9 @@ const Rewards = () => {
                 <button id="send" onClick={handleTransaction}><img src={send} alt="send" style={{ "marginTop": "0.5vh" }} /></button>
             </div>
 
-            <h3 style={{"marginLeft": "20px"}}>Project in development...</h3>
-            <h4 style={{"marginLeft": "20px"}}>Instructions:</h4>
-            <ul style={{"marginLeft": "20px"}}>
+            <h3 style={{ "marginLeft": "20px" }}>Project in development...</h3>
+            <h4 style={{ "marginLeft": "20px" }}>Instructions:</h4>
+            <ul style={{ "marginLeft": "20px" }}>
                 <li>Install Metamask extension</li>
                 <li>Connect to Rinkeby testnet</li>
                 <li>take 0.1 Ether from rinkeby faucet (for gas)</li>
