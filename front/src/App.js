@@ -11,6 +11,16 @@ import { setCurrentAccount } from './features/accountSlice';
 
 import { setPending } from './features/pendingSlice';
 import { setWpm } from './features/wpmSlice';
+import pic0 from './img/profiles/0.png';
+import pic1 from './img/profiles/1.png';
+import pic2 from './img/profiles/2.png';
+import pic3 from './img/profiles/3.png';
+import pic4 from './img/profiles/4.png';
+import pic5 from './img/profiles/5.png';
+import pic6 from './img/profiles/6.png';
+import pic7 from './img/profiles/7.png';
+import pic8 from './img/profiles/8.png';
+import pic9 from './img/profiles/9.png';
 
 import {
   BrowserRouter as Router,
@@ -22,9 +32,8 @@ import {
 import Leaderboard from './components/leaderboard';
 import Rewards from './components/rewards';
 import Typing from './components/typing';
-import { current } from '@reduxjs/toolkit';
 
-const BASE_URL = process.env.MONGODB_URI;
+const BASE_URL = process.env.REACT_APP_URL;
 
 const App = () => {
   let routes = useRoutes([
@@ -41,6 +50,8 @@ const Sidebar = () => {
 
   const wpm = useSelector((state) => state.wpm.value);
   const pending = useSelector((state) => state.pending.value);
+  
+  const arr = [pic0, pic1, pic2, pic3, pic4, pic5, pic6, pic7, pic8, pic9];
 
 
   const checkIfWalletIsConnected = async () => {
@@ -101,14 +112,17 @@ const Sidebar = () => {
           const address = accounts[0];
           const WpmSum = 0;
           const highscore = 0;
+          const img = arr[Math.floor(Math.random() * 9) + 1];
 
           axios.post(`${BASE_URL}/users`,
             {
               address,
               WpmSum,
-              attempts: 1,
+              attempts: 0,
               highscore,
-              pending
+              pending,
+              img
+
             })
             .then((response) => {
               // setItems([...items, response.data]);
@@ -116,8 +130,12 @@ const Sidebar = () => {
             });
         } else {
           console.log(response.data);
+          if(response.data[0].attempts !== 0){
+            dispatch(setWpm(parseInt(response.data[0].WpmSum / response.data[0].attempts)));
+          }else{
+            dispatch(setWpm(parseInt(response.data[0].WpmSum)));
 
-          dispatch(setWpm(parseInt(response.data[0].WpmSum / response.data[0].attempts)));
+          }
           dispatch(setPending(parseInt(response.data[0].pending)));
 
         }

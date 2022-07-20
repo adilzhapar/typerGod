@@ -10,7 +10,8 @@ import { setWpm } from '../../features/wpmSlice';
 import { addPoint } from '../../features/pendingSlice';
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8080'
+
+const BASE_URL = process.env.REACT_APP_URL;
 
 const Typing = () => {
     const inputReference = useRef(null);
@@ -162,12 +163,13 @@ const Typing = () => {
         
         dispatch(addPoint(parseInt(netWpm / 10)));
         
-        let WpmSum, attempts, pending, highscore;
+        let WpmSum, attempts, pending, highscore, img;
         axios.get(`${BASE_URL}/users/${currentAccount}`).then((response) => {
             WpmSum = response.data[0].WpmSum + netWpm;
             attempts = response.data[0].attempts + 1;
             pending = response.data[0].pending + parseInt(netWpm / 10);
             highscore = response.data[0].highscore;
+            let img = response.data[0].img;
             
             if (netWpm > highscore) {
                 highscore = netWpm;
@@ -181,7 +183,8 @@ const Typing = () => {
                 WpmSum,
                 attempts,
                 highscore,
-                pending
+                pending,
+                img
             })
             .then((response) => {
                 console.log(response);

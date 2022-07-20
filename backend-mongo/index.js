@@ -19,11 +19,11 @@ app.use(function(req, res, next) {
 
 // create new person (connect wallet)
 app.post('/users', (req, res) => {  
-    const {address, WpmSum, attempts, highscore, pending} = req.body;
+    const {address, WpmSum, attempts, highscore, pending, img} = req.body;
 
     getDB()
     .collection('users')
-    .insertOne({'_id': address, 'WpmSum': WpmSum, 'attempts': attempts, 'highscore': highscore, 'pending': pending}, (err, result) => {
+    .insertOne({'_id': address, 'WpmSum': WpmSum, 'attempts': attempts, 'highscore': highscore, 'pending': pending, 'img': img}, (err, result) => {
         // getDB().collection('users').createIndex({'_id': address}, {unique: true});
         if (err) {
             res.status(500).json({ err: err });
@@ -36,10 +36,12 @@ app.post('/users', (req, res) => {
     
 });
 
+// upload images
+
 
 // update person (every session of typing)
 app.put('/users/:address', (req, res) => {
-    const {WpmSum, attempts, highscore, pending} = req.body;
+    const {WpmSum, attempts, highscore, pending, img} = req.body;
     const { address } = req.params;
 
     getDB()
@@ -52,7 +54,8 @@ app.put('/users/:address', (req, res) => {
                 WpmSum,
                 attempts,
                 highscore,
-                pending
+                pending,
+                img
             }
         },
         (err, result) => {

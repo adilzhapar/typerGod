@@ -1,26 +1,16 @@
-import { MongoClient as mongo } from "mongodb";
+const mongoose = require("mongoose");
 
-const url =  "mongodb://localhost:27017";
-let db;
+const connectToDataBase = () => {
+    mongoose
+        .connect(
+            `mongodb+srv://zhaparka:${process.env.PASSWORD}@cluster0.8tuyd.mongodb.net/?retryWrites=true&w=majority`
+        )
+        .then(() => {
+            console.log("Succesfully connected.");
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+};
 
-const connect = () => {
-    mongo.connect(
-        url,
-        {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        },
-        (err, client) => {
-            if (err) {
-                console.error(err);
-                return;
-            }
-            db = client.db("typerGod");
-
-        }
-    )
-}
-
-const getDB = () => db;
-
-export { connect, getDB };
+module.exports = connectToDataBase;
