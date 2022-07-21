@@ -1,6 +1,7 @@
 import { ObjectId, MongoClient } from "mongodb";
 import express from "express";
 import cors from "cors";
+import 'dotenv/config';
 
 const app = express();
 
@@ -10,7 +11,7 @@ app.use(express.json());
 const port = 8080;
 
 const uri =
-    `mongodb+srv://zhaparka:zhaparka@cluster0.jcqkd.mongodb.net/?retryWrites=true&w=majority`
+    `mongodb+srv://zhaparka:${process.env.PASSWORD}@cluster0.jcqkd.mongodb.net/?retryWrites=true&w=majority`
 
 const client = new MongoClient(uri);
 client
