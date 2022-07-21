@@ -8,7 +8,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const port = 8080;
+const port = 5000;
 
 const uri =
     `mongodb+srv://zhaparka:${process.env.PASSWORD}@cluster0.jcqkd.mongodb.net/?retryWrites=true&w=majority`
@@ -142,6 +142,6 @@ app.get('/highscore', (req, res) => {
 
 // get leaderboard by avg
 
-app.listen(port, () => {
+app.listen(process.env.PORT || port, () => {
     console.log(`Server started at ${port}`);
 });
