@@ -1,16 +1,20 @@
-const mongoose = require("mongoose");
+import { MongoClient } from "mongodb";
+import "dotenv/config";
 
-const connectToDataBase = () => {
-    mongoose
-        .connect(
-            `mongodb+srv://zhaparka:${process.env.PASSWORD}@cluster0.8tuyd.mongodb.net/?retryWrites=true&w=majority`
-        )
-        .then(() => {
-            console.log("Succesfully connected.");
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-};
+// Replace the uri string with your connection string.
+const uri =
+    `mongodb+srv://zhaparka:${process.env.PASSWORD}@cluster0.jcqkd.mongodb.net/?retryWrites=true&w=majority`;
 
-module.exports = connectToDataBase;
+const client = new MongoClient(uri);
+
+async function run() {
+    try {
+        const database = client.db('typerGod');
+        const users = database.collection('users');
+        console.log(users);
+    } finally {
+        // Ensures that the client will close when you finish/error
+        await client.close();
+    }
+}
+run().catch(console.dir);
