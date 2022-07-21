@@ -33,7 +33,10 @@ import Leaderboard from './components/leaderboard';
 import Rewards from './components/rewards';
 import Typing from './components/typing';
 
-const BASE_URL = process.env.REACT_APP_URL;
+const BASE_URL = "https://typer-god.herokuapp.com";
+// const BASE_URL = "http://localhost:8080";
+
+// console.log(process.env.REACT_APP_BASE_URL);
 
 const App = () => {
   let routes = useRoutes([

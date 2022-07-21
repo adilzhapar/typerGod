@@ -10,8 +10,10 @@ import { ethers } from "ethers";
 import axios from "axios";
 
 
-const BASE_URL = process.env.REACT_APP_URL;
-// const items = JSON.parse(localStorage.getItem('pending')) || 0;
+const BASE_URL = "https://typer-god.herokuapp.com";
+// const BASE_URL = "http://localhost:8080";
+
+
 
 const Rewards = () => {
     const wpm = useSelector((state) => state.wpm.value);

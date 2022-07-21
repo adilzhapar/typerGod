@@ -11,7 +11,9 @@ import { addPoint } from '../../features/pendingSlice';
 import axios from 'axios';
 
 
-const BASE_URL = process.env.REACT_APP_URL;
+const BASE_URL = "https://typer-god.herokuapp.com";
+// const BASE_URL = "http://localhost:8080";
+
 
 const Typing = () => {
     const inputReference = useRef(null);
