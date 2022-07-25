@@ -230,7 +230,8 @@ useEffect(() => {
 
 return (
     <div className="page">
-        {currentAccount && (
+        {/* {currentAccount &&  */}
+        
             <>
                 <p>{time}</p>
 
@@ -261,10 +262,10 @@ return (
                 <p>Accuracy: {accuracy}%</p>
                 <p>You have earned: {points}</p>
             </>
-        )}
-        {!currentAccount && (
+        {/* )} */}
+        {/* {!currentAccount && (
             <h2>Please, connect the wallet</h2>
-        )}
+        )} */}
     </div>
 );
 }
