@@ -65,14 +65,14 @@ input {
 }
 
 button {
-    margin-top: 2vh;
-    margin-bottom: 2vh;
+    /* margin-top: 2vh;
+    margin-bottom: 2vh; */
     /* margin-left: 1vw; */
     background-color: #2B2BE7;
-    border-radius: 10px;
+    border-radius: 20px;
     color: white;
-    width: 10vw;
-    height: 7.2vh;
+    width: 95%;
+    height: 95%;
     font-size: 15px;
     font-weight: 700;
     border: none;
@@ -104,7 +104,6 @@ button:hover{
 }
 
 .inp-bar-elem {
-    width: 6vw;
-    margin: 0.5vh;
-    /* height: 40px; */
+    width: 7vw;
+    height: 55px;
 }

@@ -30,7 +30,7 @@ html {
     margin-bottom: 2vh;
     margin-left: 1vw;
     background-color: #2B2BE7;
-    border-radius: 5px;
+    border-radius: 30px;
     color: white;
     width: 20vw;
     height: 7vh;
@@ -57,6 +57,18 @@ html {
 }
 
 .component-link {
+    width: 19vw;
+    height: 5vh;
+    margin-top: 3vh;
+    display: flex;
+    align-items: center;
+    padding: 1vh 0 1vh 2vh;
+    gap: 1vw;
+    /* background-color: #202A30; */
+    border-radius: 5px;
+}
+
+.chosen-component-link {
     width: 19vw;
     height: 5vh;
     margin-top: 3vh;

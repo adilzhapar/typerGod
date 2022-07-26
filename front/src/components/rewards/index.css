@@ -55,9 +55,9 @@ span {
 }
 
 
-#send {
-    width: 5vw;
-    border-radius: 10px;
-    /* margin: 4.5vh 0.5vw 0 0.2vw; */
+.send-button {
+    width: 60px;
+    height: 60px;
 }
+
 

@@ -152,7 +152,10 @@ const Rewards = () => {
                     <span id="pending">{pending}</span>
 
                 </div>
-                <button id="send" onClick={handleTransaction}><img src={send} alt="send" style={{ "marginTop": "0.5vh" }} /></button>
+                <div className="send-button">
+                    <button id="send" onClick={handleTransaction}><img src={send} alt="send" style={{ "marginTop": "0.5vh" }} /></button>
+
+                </div>
             </div>
 
             <h3 style={{ "marginLeft": "20px" }}>Project in development...</h3>

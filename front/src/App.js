@@ -34,15 +34,34 @@ import Rewards from './components/rewards';
 import Typing from './components/typing';
 
 const BASE_URL = "https://typer-god.herokuapp.com";
-// const BASE_URL = "http://localhost:8080";
 
-// console.log(process.env.REACT_APP_BASE_URL);
+const links = [
+  {
+    "link": "/",
+    "component": "Typing",
+    "img": typeSvg,
+    "class": "chosen-component-link"
+  },
+  {
+    "link": "rewards",
+    "component": "Rewards",
+    "img": rewardSvg,
+    "class": "component-link"
+  },
+  {
+    "link": "leaderboard",
+    "component": "Leaderboard",
+    "img": leaderboardSvg,
+    "class": "component-link"
+  }
+]
 
 const App = () => {
   let routes = useRoutes([
-    { path: "/", element: <Rewards /> },
-    { path: "leaderboard", element: <Leaderboard /> },
+    { path: "/", element: <Typing /> },
     { path: "typing", element: <Typing /> },
+    { path: "leaderboard", element: <Leaderboard /> },
+    { path: "rewards", element: <Rewards /> },
   ]);
   return routes;
 };
@@ -53,8 +72,9 @@ const Sidebar = () => {
 
   const wpm = useSelector((state) => state.wpm.value);
   const pending = useSelector((state) => state.pending.value);
-  
+
   const arr = [pic0, pic1, pic2, pic3, pic4, pic5, pic6, pic7, pic8, pic9];
+  const [componentLinks, setComponentLinks] = useState(links);
 
 
   const checkIfWalletIsConnected = async () => {
@@ -84,7 +104,7 @@ const Sidebar = () => {
           dispatch(setWpm(parseInt(response.data[0].WpmSum / response.data[0].attempts)));
           dispatch(setPending(parseInt(response.data[0].pending)));
 
-          }
+        }
         );
       } else {
         console.log("No authorized account found")
@@ -133,9 +153,9 @@ const Sidebar = () => {
             });
         } else {
           console.log(response.data);
-          if(response.data[0].attempts !== 0){
+          if (response.data[0].attempts !== 0) {
             dispatch(setWpm(parseInt(response.data[0].WpmSum / response.data[0].attempts)));
-          }else{
+          } else {
             dispatch(setWpm(parseInt(response.data[0].WpmSum)));
 
           }
@@ -170,18 +190,32 @@ const Sidebar = () => {
     }
   }
 
+  const handleComponent = (component_name) => {
+
+    setComponentLinks((prevLinks) => 
+      prevLinks.map((obj) => {
+        if(obj.component === component_name){
+          return {...obj, class: "chosen-component-link"};
+        }else{
+          return {...obj, class: "component-link"};
+        }
+      })
+
+    );
+    
+  }
+
   useEffect(() => {
     checkIfWalletIsConnected();
-
-    
 
     console.log("Account after refresh: ", currentAccount)
 
   }, [])
 
+
   return (
     <div className='sidebar'>
-      <Link to="/">
+      <Link to="/" onClick={() => handleComponent("Typing")}>
         <img src={logo} alt="logo" style={{ "width": "15vw", "marginTop": "3vh" }} />
       </Link>
 
@@ -195,26 +229,16 @@ const Sidebar = () => {
       )}
 
       <div className="links">
-        <Link to="/" className="component-link-text">
-          <div className="component-link">
-            <img src={rewardSvg} alt="top1Svg" />
-            Rewards
-          </div>
-        </Link>
+        {componentLinks.map((item, index) => (
+          <Link key={index} to={item.link} className="component-link-text">
+            <div className={item.class} onClick={() => handleComponent(item.component)}>
+              <img src={item.img} alt={item.link} />
+              {item.component}
+            </div>
+          </Link>
+        )
 
-        <Link to="/leaderboard" className="component-link-text">
-          <div className="component-link">
-            <img src={leaderboardSvg} alt="leaderboardSvg" />
-            Leaderboard
-          </div>
-        </Link>
-
-        <Link to="/typing" className="component-link-text">
-          <div className="component-link">
-            <img src={typeSvg} alt="typeSvg" />
-            Typing
-          </div>
-        </Link>
+        )}
 
       </div>
 
@@ -229,7 +253,7 @@ const AppWrapper = () => {
     <Router>
       <div className="all">
         <Sidebar className="sidebar" />
-        <div style={{ "borderLeft": "0.3px solid gray", "height": "100vh" }}></div>
+        <div style={{ "borderLeft": "0.1px solid darkgray", "height": "100vh" }}></div>
         <App />
       </div>
     </Router>

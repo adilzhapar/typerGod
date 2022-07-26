@@ -230,7 +230,7 @@ useEffect(() => {
 
 return (
     <div className="page">
-        {/* {currentAccount &&  */}
+        {currentAccount && (
         
             <>
                 <p>{time}</p>
@@ -242,19 +242,22 @@ return (
                 </div>
                 <div className="input-word">
                     <input type="text" value={inputWord} ref={inputReference} onChange={handleInputWord} onKeyDown={handleSpace} />
-                    <button
-                        className="inp-bar-elem"
-                        onClick={handleTextRefresh}
-                        onKeyDown={handleEnter}>
-                        <img src={sendSvg} alt="reload" />
-                    </button>
+                    <div className="inp-bar-elem">
 
-                    <button
-                        className="inp-bar-elem"
-                        onClick={handleSetTimer}
-                    >
-                        <img src={stopwatchSvg} alt="time" />
-                    </button>
+                        <button
+                            onClick={handleTextRefresh}
+                            onKeyDown={handleEnter}>
+                            <img src={sendSvg} alt="reload" />
+                        </button>
+                    </div>
+                    <div className="inp-bar-elem">
+                        <button
+                            onClick={handleSetTimer}
+                        >
+                            <img src={stopwatchSvg} alt="time" />
+                        </button>
+
+                    </div>
 
                 </div>
 
@@ -262,10 +265,10 @@ return (
                 <p>Accuracy: {accuracy}%</p>
                 <p>You have earned: {points}</p>
             </>
-        {/* )} */}
-        {/* {!currentAccount && (
+        )}
+        {!currentAccount && (
             <h2>Please, connect the wallet</h2>
-        )} */}
+        )} 
     </div>
 );
 }
