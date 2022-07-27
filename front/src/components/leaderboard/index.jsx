@@ -7,11 +7,8 @@ import { ethers } from "ethers";
 import {useSelector} from 'react-redux';
 import axios from 'axios';
 
-
 const BASE_URL = "https://typer-god.herokuapp.com";
 // const BASE_URL = "http://localhost:8080";
-
-
 
 const Leaderboard = () => {
     const currentAccount = useSelector((state) => state.currentAccount.value);
@@ -74,7 +71,6 @@ const Leaderboard = () => {
         });
     }
     
-
     return (
         <div className="leaderboard-component">
             <div className="top">
@@ -87,23 +83,32 @@ const Leaderboard = () => {
             </div>
 
             <div className="filters">
-                <button className="lead-button" onClick={() => handleFilterType("highscore")}>by highscore</button>
-                <button className="lead-button" onClick={() => handleFilterType("chain")}>on-chain</button>
+                <button className="lead-button" onClick={() => handleFilterType("highscore")}>Highscore</button>
+                <button className="lead-button" onClick={() => handleFilterType("chain")}>On-Chain</button>
             </div>
 
-            {type === "chain" && leaders.map((lead, index) => (
-                <div key={index}>
-                    <p>{lead.user}</p>
-                    <p>{lead.tokens} TGT</p>
-                </div>
-            ))}
-            {type === "highscore" && highscoreLeaders.map((lead, index) => (
-                <div key={index}>
-                    <img className="avatar" src={lead.img} alt="img"></img>
-                    <p>{lead._id}</p>
-                    <p>{lead.highscore} WPM</p>
-                </div>
-            ))}
+            <div className="users">
+                {type === "chain" && leaders.map((lead, index) => (
+                    <div key={index}>
+                        <p>{lead.user}</p>
+                        <p>{lead.tokens} TGT</p>
+                    </div>
+                ))}
+                <ol>
+                    {type === "highscore" && highscoreLeaders.map((lead, index = 0) => (
+                            <div className="users-li" key={index}>
+                                <div className="index">
+                                    {index + 1}.
+                                </div>
+                                <img className="avatar" src={lead.img} alt="img" />
+                                <p className="users-li-p">{lead._id}</p>
+                                <div className="users-li-record">
+                                    <p>{lead.highscore} WPM</p>
+                                </div>
+                            </div>
+                    ))}
+                </ol>
+            </div>
         </div>
     );
 };

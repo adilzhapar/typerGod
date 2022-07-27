@@ -253,7 +253,6 @@ const AppWrapper = () => {
     <Router>
       <div className="all">
         <Sidebar className="sidebar" />
-        <div className="line"></div>
         <App />
       </div>
     </Router>

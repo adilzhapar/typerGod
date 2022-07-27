@@ -154,7 +154,6 @@ const Rewards = () => {
                 </div>
                 <div className="send-button">
                     <button id="send" onClick={handleTransaction}><img src={send} alt="send" style={{ "marginTop": "0.5vh" }} /></button>
-
                 </div>
             </div>
 

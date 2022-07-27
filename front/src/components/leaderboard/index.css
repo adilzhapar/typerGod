@@ -1,5 +1,63 @@
+.top {
+    padding: 50px;
+}
 
+.leaderboard-component {
+    width: 78vw;
+    height: 100%;
+    background-color: #121212;
+    border-left: solid 0.5px #4d5459;
+}
 
 .avatar{
-    width: 100px;
+    width: 60px;
+    padding-right: 10px;
+}
+
+.filters {
+    width: 400px;
+    height: 100%;
+    padding-bottom: 25px;
+}
+
+.lead-button {
+    height: 50px;
+    background: -webkit-linear-gradient(left, #60c657, #2B2BE7);
+    animation: gradient-animation 4s ease infinite;
+    font-size: 20px;
+}
+
+.lead-button:hover {
+    cursor: pointer;
+    font-size: 22px;
+}
+
+.users {
+    padding-left: 25px;
+}
+
+.users-li {
+    padding-top: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.users-li-p {
+    padding-right: 10px;
+}
+
+.users-li-record {
+    border: solid 1px lightgreen;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+.users-li-record p {
+    margin: 10px;
+}
+
+.index {
+    padding-right: 20px;
+    font-size: 20px;
 }

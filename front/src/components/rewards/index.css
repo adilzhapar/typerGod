@@ -1,3 +1,9 @@
+.reward-component {
+    width: 78vw;
+    height: 100vh;
+    border-left: solid 0.5px #4d5459;
+}
+
 .top {
     margin-top: 2vh;
     margin-left: 2vw;
@@ -22,9 +28,9 @@ h2 {
 }
 
 .statistics {
-    margin-left: 2vw;
-    margin-top: 10vh;
+    padding: 50px;
     display: flex;
+    align-items: center;
     gap: 1.5vw;
 }
 
@@ -35,23 +41,23 @@ h2 {
     height: 80px;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .stat-p {
+    margin: 0;
     background-color: #202A30 !important;
-    border: none;
     border-radius: 15px;
     font-size: 1.1vw !important;
     font-family: sans-serif !important;
-    padding: 2vh 1vw 0 1vw;
     color:rgb(203, 203, 203);
 }
 
 span {
+    padding-top: 10px;
     font-size: 1.7vw;
     font-weight: 700;
-    margin-left: 1.2vw;
-
 }
 
 
@@ -60,4 +66,7 @@ span {
     height: 60px;
 }
 
-
+#send {
+    margin: 0;
+    background: -webkit-linear-gradient(left, #60c657, #2B2BE7);
+}
