@@ -2,8 +2,7 @@ import React from "react";
 import { useState, useEffect, useRef } from 'react';
 import input from './input.txt';
 import './index.css';
-import sendSvg from '../../img/send.svg';
-import stopwatchSvg from '../../img/stopwatch.svg';
+
 import keyboardSvg from '../../img/keyboard.svg';
 import restartSvg from '../../img/restart.svg';
 
@@ -16,6 +15,21 @@ import axios from 'axios';
 const BASE_URL = "https://typer-god.herokuapp.com";
 // const BASE_URL = "http://localhost:8080";
 
+const times = [
+    {
+        "amount": 15,
+        "class": "not-chosen"
+    },
+    {
+        "amount": 30,
+        "class": "chosen"
+    },
+    {
+        "amount": 60,
+        "class": "not-chosen"
+    }
+]
+
 
 const Typing = () => {
     const inputReference = useRef(null);
@@ -25,8 +39,8 @@ const Typing = () => {
     const [inputWord, setInputWord] = useState("");
     const [words, setWords] = useState();
     const [counter, setCounter] = useState(0); // count how many words are typed
-    const [timeAmount, setTimeAmount] = useState(30); // time will decrease
-    const [time, setTime] = useState(30);
+    const [timeAmount, setTimeAmount] = useState(1); // time will decrease
+    const [time, setTime] = useState(1);
 
 
     const [isActive, setIsActive] = useState(true);
@@ -36,6 +50,7 @@ const Typing = () => {
     const [running, setRunning] = useState(false);
     const [points, setPoints] = useState(0);
     const [net, setNet] = useState(0);
+    const [timesState, setTimesState] = useState(times);
 
     const currentAccount = useSelector((state) => state.currentAccount.value);
 
@@ -114,24 +129,31 @@ const Typing = () => {
                 setWords(obj);
                 setReadyWords(obj.filter((word) => word.id <= step));
 
-
             })
     }
 
 
-    const [swp, setSwp] = useState(0);
 
-    const handleSetTimer = () => {
-        const times = [15, 60, 30];
-        // console.log(x);
-        // setTimer({ count: parseInt(x), time: parseInt(x)});
+    const handleSetTimer = (current) => {
 
-        setSwp((swp + 1) % 3);
-        // console.log(`SWP: ${swp}`);
-        // console.log(times[swp % 3]);
-        setTime(times[swp % 3]);
-        setTimeAmount(times[swp % 3]);
+        setTimesState((prevTimes) =>
+            prevTimes.map((tm) => {
+                if (tm.amount === current) {
+                    // console.log(tm);
+                    return { ...tm, class: "chosen" };
+                } else {
+                    // console.log(tm);
+                    return { ...tm, class: "not-chosen" };
+                }
+            })
+        );
+        setTimeAmount(current);
+        setTime(current);
+
+
     }
+
+    console.log("from the function", timesState)
 
     useEffect(() => {
         handleTextRefresh();
@@ -243,7 +265,19 @@ const Typing = () => {
                 </div>
                 <div className="typing-top-right">
                     <h3 className="gradient-text typing-top-right-h3">Choose time:</h3>
-                    
+                    <div className="typing-top-right-button">
+                        {
+                            timesState?.map((item, index) => (
+                                <p
+                                    key={index}
+                                    className={item.class}
+                                    onClick={() => handleSetTimer(item.amount)}
+                                >
+                                    {item.amount}
+                                </p>
+                            ))
+                        }
+                    </div>
                 </div>
             </div>
             <div className="page">
@@ -257,31 +291,42 @@ const Typing = () => {
                             ) : <h2 className="not-timer">{time}</h2>
                             }
                         </div>
-                        <div className={isActive ? "text" : "not-text"}>
+                        {/* <div className={isActive ? "text" : "not-text"}>
                             {readyWords?.map((word) => (
                                 <p key={word.id} className={`${word.class} word-p`}>{word.name}</p>
                             ))}
-                        </div>
+                        </div> */}
+                        {
+                            isActive ?
+                                (
+                                    <div className="text">
+                                        {readyWords?.map((word) => (
+                                            <p key={word.id} className={`${word.class} word-p`}>{word.name}</p>
+                                        ))}
+                                    </div>
+                                ) :
+                                (   
+                                    <div className="text after-text">
+                                        <div className="after-text-object">
+                                            <div className="after-text-number">{net}</div>
+                                            <div className="after-text-name">WPM</div>
+                                        </div>
+                                        <div className="after-text-object">
+                                            <div className="after-text-number">{accuracy} %</div>
+                                            <div className="after-text-name">Accuracy</div>
+
+                                        </div>
+                                        <div className="after-text-object">
+                                            <div className="after-text-number">{points}</div>
+                                            <div className="after-text-name">Earned TGT</div>
+
+                                        </div>
+                                    </div>
+                                )
+                        }
                         <div className="input-word">
                             <input type="text" value={inputWord} ref={inputReference} onChange={handleInputWord} onKeyDown={handleSpace} />
-                            {/* <div className="inp-bar-elem">
 
-                                    <button
-                                        className="typing-button"
-                                        onClick={handleTextRefresh}
-                                        onKeyDown={handleEnter}>
-                                        <img src={sendSvg} alt="reload" />
-                                    </button>
-                                </div>
-                                <div className="inp-bar-elem">
-                                    <button
-                                        className="typing-button"
-                                        onClick={handleSetTimer}
-                                    >
-                                        <img src={stopwatchSvg} alt="time" />
-                                    </button>
-
-                                </div> */}
                         </div>
                         <div className="inp-bar-elem">
                             <button

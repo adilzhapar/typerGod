@@ -19,7 +19,10 @@
 }
 
 .typing-top-right {
+    margin-top: 30px;
     margin-right: 5vw;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 #typing-slogan {
@@ -33,6 +36,27 @@
 
 .typing-top-right-h3 {
     font-size: 20px;
+    margin: 0;
+}
+.typing-top-right-button{
+    display: flex;
+    justify-content: space-between;
+    width: 100px;
+    margin: 0;
+}
+
+.chosen {
+    margin-top: 10px;
+    font-size: 20px;
+    color: #60c657;
+    font-weight: 700;
+    cursor: pointer;
+}
+.not-chosen {
+    margin-top: 10px;
+    font-size: 20px;
+    color: rgba(43, 43, 231, 0.7);
+    cursor: pointer;
 }
 
 .timer-in-page{
@@ -55,8 +79,33 @@
     flex-wrap: wrap;
     width: 60vw;
     padding: 1vh;
+    height: 120px;
 }
 
+.after-text {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.after-text-object {
+    width: 12vw;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    align-items: center;
+}
+
+.after-text-number {
+    color: #60c657;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.after-text-name {
+    color: #2B2BE7;
+    font-size: 23px;
+    font-weight: 500;
+}
 .not-text {
     display: none;
 }
