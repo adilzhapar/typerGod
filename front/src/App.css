@@ -13,13 +13,13 @@ html {
 
 
 .sidebar {
+    background-color: #121212;
     /* border: 1px solid red; */
     width: 22vw;
     height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin-right: 1vw;
     /* padding-left: 2vw; */
 }
 

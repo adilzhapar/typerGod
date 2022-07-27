@@ -1,6 +1,8 @@
-.typing-all{
+.typing-all {
+    width: 78vw;
     display: flex;
     flex-direction: column;
+    border-left: solid 0.5px #4d5459;
 }
 
 .typing-top-left {
@@ -13,6 +15,7 @@
 }
 
 .typing-top {
+    padding: 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -139,6 +142,8 @@ input {
 }
 
 .typing-button {
+    color: white;
+    background-color: white;
     margin-left: 0 !important;
     background: -webkit-linear-gradient(bottom, #60c657, #2B2BE7);
     background-size: 200% 200%;
