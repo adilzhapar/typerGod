@@ -5,6 +5,7 @@ import logo from './img/logo.svg';
 import rewardSvg from './img/reward.svg';
 import leaderboardSvg from './img/leaderboard.svg';
 import typeSvg from './img/type.svg';
+import logOutSvg from './img/log-out.svg';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCurrentAccount } from './features/accountSlice';
@@ -21,6 +22,9 @@ import pic6 from './img/profiles/6.png';
 import pic7 from './img/profiles/7.png';
 import pic8 from './img/profiles/8.png';
 import pic9 from './img/profiles/9.png';
+
+import abi from "./utils/TyperGod.json";
+import { ethers } from "ethers";
 
 import {
   BrowserRouter as Router,
@@ -67,6 +71,9 @@ const App = () => {
 };
 
 const Sidebar = () => {
+  const contractAddress = "0xd3F1319F7b50a8ea22A36F7A2625d44310aeebf5";
+
+  const contractABI = abi.abi;
   const currentAccount = useSelector((state) => state.currentAccount.value);
   const dispatch = useDispatch();
 
@@ -75,6 +82,8 @@ const Sidebar = () => {
 
   const arr = [pic0, pic1, pic2, pic3, pic4, pic5, pic6, pic7, pic8, pic9];
   const [componentLinks, setComponentLinks] = useState(links);
+  const [onChain, setOnChain] = useState(0);
+
 
 
   const checkIfWalletIsConnected = async () => {
@@ -97,6 +106,8 @@ const Sidebar = () => {
         const account = accounts[0];
         console.log("Found an authorized account:", account);
         dispatch(setCurrentAccount(account));
+        handleOnChain();
+
 
         axios.get(`${BASE_URL}/users/${account}`).then((response) => {
           console.log(response.data);
@@ -170,6 +181,26 @@ const Sidebar = () => {
     }
   }
 
+  const handleOnChain = async () => {
+    try {
+        const { ethereum } = window;
+
+        if (ethereum) {
+            const provider = new ethers.providers.Web3Provider(ethereum);
+            const signer = provider.getSigner();
+            const typerGodContract = new ethers.Contract(contractAddress, contractABI, signer);
+
+            const tokens = await typerGodContract.getTokens();
+            // console.log(tokens);
+            setOnChain(parseInt(String(tokens)));
+        } else {
+            console.log("Ethereum object doesn't exist!");
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
   const handleQuit = async () => {
     try {
       const { ethereum } = window;
@@ -224,14 +255,22 @@ const Sidebar = () => {
 
       )}
       {currentAccount && (
-        <button className="cta-button connect-wallet-button" onClick={handleQuit}>Log out</button>
+        <div className="cta-button connect-wallet-button log-out" onClick={handleQuit}>
+          <div className="log-out-left">
+            <p className="log-out-left-p">{currentAccount.substr(0, 15)}...</p>
+            <p className="log-out-left-p" id="log-out-left-tgt">{onChain} TGT</p>
+          </div>
+          <div className="log-out-right">
+            <img className="log-out-right-img" src={logOutSvg} alt="logout"></img>
+          </div>
+        </div>
 
       )}
 
       <div className="links">
         {componentLinks.map((item, index) => (
-          <Link key={index} to={item.link} className="component-link-text">
-            <div className={item.class} onClick={() => handleComponent(item.component)}>
+          <Link key={index} to={item.link} className="component-link-text" onClick={() => handleComponent(item.component)}>
+            <div className={item.class}>
               <img src={item.img} alt={item.link} />
               {item.component}
             </div>

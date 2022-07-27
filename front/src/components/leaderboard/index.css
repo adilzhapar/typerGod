@@ -41,16 +41,24 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin-bottom: 7px;
+    
 }
 
 .users-li-p {
+    width: 220px;
     padding-right: 10px;
+    font-size: 18px;
+    /* border: 1px solid red; */
 }
 
 .users-li-record {
     border: solid 1px lightgreen;
     border-radius: 10px;
     margin: 10px;
+    width: 90px;
+    display: flex;
+    justify-content: center;
 }
 
 .users-li-record p {
@@ -60,4 +68,8 @@
 .index {
     padding-right: 20px;
     font-size: 20px;
+}
+
+.lead-chosen {
+    text-decoration: underline;
 }

@@ -42,9 +42,10 @@ button:hover {
 
 
 .cta-button {
+    margin-left: 1vw;
     height: 50px;
     border: 0;
-    width: 20vw;
+    width: 19vw;
     padding-left: 40px;
     padding-right: 40px;
     border-radius: 20px;
@@ -59,6 +60,32 @@ button:hover {
     background-size: 200% 200%;
     animation: gradient-animation 4s ease infinite;
 }
+
+.log-out {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 14.5vw;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+}
+
+.log-out-left-p {
+    margin: 0;
+    margin-left: -1vw;
+    font-size: 18px;
+}
+
+#log-out-left-tgt {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 15px;
+}
+
+.log-out-right-img {
+    width: 30px;
+    margin-right: -1vw;
+}
+
 
 .component-link-text:hover {
     font-size: 20px;
