@@ -220,11 +220,11 @@ const Sidebar = () => {
       </Link>
 
       {!currentAccount && (
-        <button id="connect-button" onClick={connectWallet}>Connect the wallet</button>
+        <button className="cta-button connect-wallet-button" onClick={connectWallet}>Connect the wallet</button>
 
       )}
       {currentAccount && (
-        <button id="connect-button" onClick={handleQuit}>Log out</button>
+        <button className="cta-button connect-wallet-button" onClick={handleQuit}>Log out</button>
 
       )}
 
@@ -253,7 +253,7 @@ const AppWrapper = () => {
     <Router>
       <div className="all">
         <Sidebar className="sidebar" />
-        <div style={{ "borderLeft": "0.1px solid darkgray", "height": "100vh" }}></div>
+        <div className="line"></div>
         <App />
       </div>
     </Router>

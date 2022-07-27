@@ -1,5 +1,47 @@
+.typing-all{
+    display: flex;
+    flex-direction: column;
+}
+
+.typing-top-left {
+    display: flex;
+    margin-top: 2vh;
+    margin-left: 2vw;
+    flex-direction: row;
+    align-items: center;
+    gap: 1.5vw;
+}
+
+.typing-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.typing-top-right {
+    margin-right: 5vw;
+}
+
+#typing-slogan {
+    font-family: sans-serif !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: rgb(203, 203, 203);
+    font-weight: 600;
+    font-size: 1.2vw !important;
+}
+
+.typing-top-right-h3 {
+    font-size: 20px;
+}
+
+.timer-in-page{
+    width: 60vw;
+    display: flex;
+    justify-content: flex-start;
+}
 .page {
-    width: 78vw;
+    width: 75vw;
     margin-top: 7vh;
     display: flex;
     align-items: center;
@@ -19,7 +61,7 @@
     display: none;
 }
 
-p {
+.word-p {
     margin-left: 4px;
     margin-right: 4px;
     font-size: 20px;
@@ -33,12 +75,19 @@ p {
     padding: 1px;
 }
 
+.timer {
+    color: #60c657;
+    margin-left: 20px;
+}
+.not-timer {
+    color: #121212;
+}
 .green {
-    color: green;
+    color: #60c657;
 }
 
 .red {
-    color: red;
+    color: rgb(240, 8, 82);
 }
 
 .default {
@@ -52,7 +101,7 @@ p {
 
 input {
     padding: 1vh;  
-    margin: 3vh 0.5vw 3vh 0;
+    margin: 3vh 0 3vh 0;
     width: 100%;
     outline: none;
     border: 1px white solid;
@@ -62,25 +111,6 @@ input {
     font-size: 20px;
     font-family: "Courier New", Courier, monospace;
     color: white;
-}
-
-button {
-    /* margin-top: 2vh;
-    margin-bottom: 2vh; */
-    /* margin-left: 1vw; */
-    background-color: #2B2BE7;
-    border-radius: 20px;
-    color: white;
-    width: 95%;
-    height: 95%;
-    font-size: 15px;
-    font-weight: 700;
-    border: none;
-}
-
-button:hover{
-    cursor: pointer;
-    font-size: 18px;
 }
 
 .time{
@@ -104,6 +134,13 @@ button:hover{
 }
 
 .inp-bar-elem {
-    width: 7vw;
-    height: 55px;
+    width: 80px;
+    height: 50px;
+}
+
+.typing-button {
+    margin-left: 0 !important;
+    background: -webkit-linear-gradient(bottom, #60c657, #2B2BE7);
+    background-size: 200% 200%;
+    animation: gradient-animation 4s ease infinite;
 }

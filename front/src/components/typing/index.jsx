@@ -4,6 +4,8 @@ import input from './input.txt';
 import './index.css';
 import sendSvg from '../../img/send.svg';
 import stopwatchSvg from '../../img/stopwatch.svg';
+import keyboardSvg from '../../img/keyboard.svg';
+import restartSvg from '../../img/restart.svg';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { setWpm } from '../../features/wpmSlice';
@@ -23,8 +25,8 @@ const Typing = () => {
     const [inputWord, setInputWord] = useState("");
     const [words, setWords] = useState();
     const [counter, setCounter] = useState(0); // count how many words are typed
-    const [timeAmount, setTimeAmount] = useState(60); // time will decrease
-    const [time, setTime] = useState(60);
+    const [timeAmount, setTimeAmount] = useState(30); // time will decrease
+    const [time, setTime] = useState(30);
 
 
     const [isActive, setIsActive] = useState(true);
@@ -50,6 +52,7 @@ const Typing = () => {
 
     const handleInputWord = (event) => {
         setInputWord(event.target.value);
+
         if (isActive) {
             setRunning(true);
         }
@@ -119,7 +122,7 @@ const Typing = () => {
     const [swp, setSwp] = useState(0);
 
     const handleSetTimer = () => {
-        const times = [30, 15, 60];
+        const times = [15, 60, 30];
         // console.log(x);
         // setTimer({ count: parseInt(x), time: parseInt(x)});
 
@@ -162,9 +165,9 @@ const Typing = () => {
 
 
         setPoints(parseInt(netWpm / 10));
-        
+
         dispatch(addPoint(parseInt(netWpm / 10)));
-        
+
         let WpmSum, attempts, pending, highscore, img;
         axios.get(`${BASE_URL}/users/${currentAccount}`).then((response) => {
             WpmSum = response.data[0].WpmSum + netWpm;
@@ -172,105 +175,135 @@ const Typing = () => {
             pending = response.data[0].pending + parseInt(netWpm / 10);
             highscore = response.data[0].highscore;
             let img = response.data[0].img;
-            
+
             if (netWpm > highscore) {
                 highscore = netWpm;
             }
-            
-            
+
+
             dispatch(setWpm(parseInt(WpmSum / attempts)));
-    
+
             axios.put(`${BASE_URL}/users/${currentAccount}`,
-            {
-                WpmSum,
-                attempts,
-                highscore,
-                pending,
-                img
-            })
-            .then((response) => {
-                console.log(response);
-            })
+                {
+                    WpmSum,
+                    attempts,
+                    highscore,
+                    pending,
+                    img
+                })
+                .then((response) => {
+                    console.log(response);
+                })
         });
 
-        
 
 
-    if (acrcy === 100 || acrcy === 0) {
-        setAccuracy(acrcy);
-    } else {
-        setAccuracy(acrcy.toPrecision(2));
+
+        if (acrcy === 100 || acrcy === 0) {
+            setAccuracy(acrcy);
+        } else {
+            setAccuracy(acrcy.toPrecision(2));
+        }
+        setTime(timeAmount);
+        setIsActive(false);
+        setRunning(false);
     }
-    setTime(timeAmount);
-    setIsActive(false);
-    setRunning(false);
-}
 
 
 
-if (counter > step) {
-    setReadyWords(words.filter((word) => word.id > step && word.id <= step + 30))
-    setStep(step + 30);
-}
-
-
-useEffect(() => {
-    let interval;
-    if (running) {
-        interval = setInterval(() => {
-
-            setTime((prevTime) => prevTime - 1);
-        }, 1000);
-    } else if (!running) {
-        clearInterval(interval);
+    if (counter > step) {
+        setReadyWords(words.filter((word) => word.id > step && word.id <= step + 30))
+        setStep(step + 30);
     }
-    return () => clearInterval(interval);
-}, [running]);
 
 
-return (
-    <div className="page">
-        {currentAccount && (
-        
-            <>
-                <p>{time}</p>
+    useEffect(() => {
+        let interval;
+        if (running) {
+            interval = setInterval(() => {
 
-                <div className={isActive ? "text" : "not-text"}>
-                    {readyWords?.map((word) => (
-                        <p key={word.id} className={word.class}>{word.name}</p>
-                    ))}
-                </div>
-                <div className="input-word">
-                    <input type="text" value={inputWord} ref={inputReference} onChange={handleInputWord} onKeyDown={handleSpace} />
-                    <div className="inp-bar-elem">
+                setTime((prevTime) => prevTime - 1);
+            }, 1000);
+        } else if (!running) {
+            clearInterval(interval);
+        }
+        return () => clearInterval(interval);
+    }, [running]);
 
-                        <button
-                            onClick={handleTextRefresh}
-                            onKeyDown={handleEnter}>
-                            <img src={sendSvg} alt="reload" />
-                        </button>
+
+    return (
+        <div className="typing-all">
+            <div className="typing-top">
+                <div className="typing-top-left">
+                    <img src={keyboardSvg} alt="keyboard" />
+                    <div className="txt">
+                        <h2>Typing</h2>
+                        <p id="typing-slogan">Type faster, earn more!</p>
                     </div>
-                    <div className="inp-bar-elem">
-                        <button
-                            onClick={handleSetTimer}
-                        >
-                            <img src={stopwatchSvg} alt="time" />
-                        </button>
-
-                    </div>
-
                 </div>
+                <div className="typing-top-right">
+                    <h3 className="gradient-text typing-top-right-h3">Choose time:</h3>
+                    
+                </div>
+            </div>
+            <div className="page">
+                {currentAccount && (
 
-                <p>WPM: {net}</p>
-                <p>Accuracy: {accuracy}%</p>
-                <p>You have earned: {points}</p>
-            </>
-        )}
-        {!currentAccount && (
-            <h2>Please, connect the wallet</h2>
-        )} 
-    </div>
-);
+                    <>
+
+                        <div className="timer-in-page">
+                            {running ? (
+                                <h2 className="timer">{time}</h2>
+                            ) : <h2 className="not-timer">{time}</h2>
+                            }
+                        </div>
+                        <div className={isActive ? "text" : "not-text"}>
+                            {readyWords?.map((word) => (
+                                <p key={word.id} className={`${word.class} word-p`}>{word.name}</p>
+                            ))}
+                        </div>
+                        <div className="input-word">
+                            <input type="text" value={inputWord} ref={inputReference} onChange={handleInputWord} onKeyDown={handleSpace} />
+                            {/* <div className="inp-bar-elem">
+
+                                    <button
+                                        className="typing-button"
+                                        onClick={handleTextRefresh}
+                                        onKeyDown={handleEnter}>
+                                        <img src={sendSvg} alt="reload" />
+                                    </button>
+                                </div>
+                                <div className="inp-bar-elem">
+                                    <button
+                                        className="typing-button"
+                                        onClick={handleSetTimer}
+                                    >
+                                        <img src={stopwatchSvg} alt="time" />
+                                    </button>
+
+                                </div> */}
+                        </div>
+                        <div className="inp-bar-elem">
+                            <button
+                                className="typing-button"
+                                onClick={handleTextRefresh}
+                                onKeyDown={handleEnter}>
+                                <img src={restartSvg} alt="restart" />
+                            </button>
+                        </div>
+
+                        {/* <p>WPM: {net}</p>
+                            <p>Accuracy: {accuracy}%</p>
+                            <p>You have earned: {points}</p> */}
+                    </>
+                )}
+                {!currentAccount && (
+                    <h2 className="gradient-text">Please, connect the wallet</h2>
+                )}
+            </div>
+        </div>
+
+    );
 }
 
 export default Typing;
