@@ -41,7 +41,8 @@
     font-size: 20px;
     margin: 0;
 }
-.typing-top-right-button{
+
+.typing-top-right-button {
     display: flex;
     justify-content: space-between;
     width: 100px;
@@ -55,6 +56,7 @@
     font-weight: 700;
     cursor: pointer;
 }
+
 .not-chosen {
     margin-top: 10px;
     font-size: 20px;
@@ -62,11 +64,12 @@
     cursor: pointer;
 }
 
-.timer-in-page{
+.timer-in-page {
     width: 60vw;
     display: flex;
     justify-content: flex-start;
 }
+
 .page {
     width: 75vw;
     margin-top: 7vh;
@@ -109,6 +112,7 @@
     font-size: 23px;
     font-weight: 500;
 }
+
 .not-text {
     display: none;
 }
@@ -131,9 +135,11 @@
     color: #60c657;
     margin-left: 20px;
 }
+
 .not-timer {
     color: #121212;
 }
+
 .green {
     color: #60c657;
 }
@@ -148,11 +154,11 @@
     color: black;
     border-radius: 10px;
     padding: 1px;
-}   
+}
 
 
 input {
-    padding: 1vh;  
+    padding: 1vh;
     margin: 3vh 0 3vh 0;
     width: 100%;
     outline: none;
@@ -165,7 +171,7 @@ input {
     color: white;
 }
 
-.time{
+.time {
     width: 60vw;
     display: flex;
     align-items: center;
@@ -197,4 +203,58 @@ input {
     background: -webkit-linear-gradient(bottom, #60c657, #2B2BE7);
     background-size: 200% 200%;
     animation: gradient-animation 4s ease infinite;
+}
+
+.page-connection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.page-connection-txt {
+    margin-bottom: 4vh;
+}
+
+.page-faq-object {
+    background-color: #202A30;
+    border-radius: 10px;
+    padding: 5px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.page-faq-object-question {
+    margin: 10px 0 10px 10px;
+    
+}
+
+.page-faq-object-answer {
+    margin: 10px 0 10px 10px;
+}
+
+.dont-show {
+    
+    font-size: 0;
+    margin: 0;
+    opacity: 0;
+    padding: 0;
+    /* fade out, then shrink */
+    transition: 
+        opacity .25s,
+        font-size .5s .25s,
+        margin .5s .25s,
+        padding .5s .25s;
+}
+
+.show {
+    
+    /* unshrink, then fade in */
+    transition: font-size .25s,
+        margin .25s,
+        padding .25s,
+        opacity .5s .25s;
 }

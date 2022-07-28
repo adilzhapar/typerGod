@@ -42,6 +42,10 @@
     flex-direction: row;
     align-items: center;
     margin-bottom: 7px;
+    transition: font-size .25s,
+        margin .25s,
+        padding .25s,
+        opacity .5s .25s;
     
 }
 

@@ -30,6 +30,34 @@ const times = [
     }
 ]
 
+const faq = [
+    {
+        "question": "Why should I?",
+        "answer": "It's not for spending, just for earning, so chill. Although, it is an authentication method in web3.",
+        "show" : false
+    },
+    {
+        "question": "How could I?",
+        "answer": "Install 'Metamask' extension, create wallet, choose 'Rinkeby Testnet Network' and you are free to go.",
+        "show" : false
+    },
+    {
+        "question": "How to earn?",
+        "answer": "Type the text till the time is not over, make it again and again. It is a good way to practice.",
+        "show" : false
+    },
+    {
+        "question": "What is WPM?",
+        "answer": "Word Per Minute - how many words did you type in a minute.",
+        "show" : false
+    },
+    {
+        "question": "What is TGT?",
+        "answer": "TyperGod Token - unique token you earn to buy incredible NFT pics.",
+        "show" : false
+    },
+]
+
 
 const Typing = () => {
     const inputReference = useRef(null);
@@ -51,6 +79,8 @@ const Typing = () => {
     const [points, setPoints] = useState(0);
     const [net, setNet] = useState(0);
     const [timesState, setTimesState] = useState(times);
+    const [faqs, setFaqs] = useState(faq);
+    
 
     const currentAccount = useSelector((state) => state.currentAccount.value);
 
@@ -151,6 +181,16 @@ const Typing = () => {
         setTime(current);
 
 
+    }
+
+    const handleFAQ = ({question}) => {
+        setFaqs((prevFaqs) => 
+            prevFaqs.map((item) => {
+                if(item.question === question){
+                    return {...item, show: !item.show};
+                }else return item;
+            })
+        )
     }
 
     console.log("from the function", timesState)
@@ -291,11 +331,6 @@ const Typing = () => {
                             ) : <h2 className="not-timer">{time}</h2>
                             }
                         </div>
-                        {/* <div className={isActive ? "text" : "not-text"}>
-                            {readyWords?.map((word) => (
-                                <p key={word.id} className={`${word.class} word-p`}>{word.name}</p>
-                            ))}
-                        </div> */}
                         {
                             isActive ?
                                 (
@@ -337,13 +372,24 @@ const Typing = () => {
                             </button>
                         </div>
 
-                        {/* <p>WPM: {net}</p>
-                            <p>Accuracy: {accuracy}%</p>
-                            <p>You have earned: {points}</p> */}
                     </>
                 )}
                 {!currentAccount && (
-                    <h2 className="gradient-text">Please, connect the wallet</h2>
+                    <div className="page-connection">
+                        <div className="page-connection-txt">
+                            <h2 className="gradient-text">Please, connect the wallet</h2>
+                        </div>
+                        <div className="page-faq">
+                            {
+                                faqs.map((faq, index) => (
+                                    <div className="page-faq-object" key={index} onClick={() => handleFAQ(faq)}>
+                                        <h3 id="question" className="page-faq-object-question">{faq.question}</h3>
+                                        <p id="answer" className={`${faq.show ? "show" : "dont-show"} page-faq-object-answer`}>{faq.answer}</p>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    </div>
                 )}
             </div>
         </div>

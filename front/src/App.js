@@ -130,7 +130,14 @@ const Sidebar = () => {
       const { ethereum } = window;
 
       if (!ethereum) {
-        alert("Get MetaMask!");
+        window.open("https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=ru", "_blank");
+        return;
+      }
+
+      let chainId = await ethereum.request({ method: 'eth_chainId' });
+      const rinkebyChainId = "0x4";
+      if (chainId !== rinkebyChainId) {
+        alert("You are not connected to the Rinkeby Test Network!");
         return;
       }
 
