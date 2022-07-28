@@ -171,6 +171,7 @@ input {
     color: white;
 }
 
+
 .time {
     width: 60vw;
     display: flex;
@@ -203,6 +204,7 @@ input {
     background: -webkit-linear-gradient(bottom, #60c657, #2B2BE7);
     background-size: 200% 200%;
     animation: gradient-animation 4s ease infinite;
+    width: 95%;
 }
 
 .page-connection {

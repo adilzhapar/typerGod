@@ -25,6 +25,7 @@
     background: -webkit-linear-gradient(left, #60c657, #2B2BE7);
     animation: gradient-animation 4s ease infinite;
     font-size: 20px;
+    width: 95%;
 }
 
 .lead-button:hover {
@@ -48,6 +49,7 @@
         opacity .5s .25s;
     
 }
+
 
 .users-li-p {
     width: 220px;

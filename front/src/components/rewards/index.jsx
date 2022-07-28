@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import gift from '../../img/gift.svg';
 import send from '../../img/send.svg';
+import Swal from 'sweetalert2'
+
 import './index.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { setPending } from '../../features/pendingSlice';
@@ -66,8 +68,23 @@ const Rewards = () => {
 
                     const waveTxn = await typerGodContract.sendTokens(pending, { gasLimit: 300000 });
                     console.log("Mining...", waveTxn.hash);
+                    Swal.fire({
+                        position: 'top',
+                        icon: 'success',
+                        height: 100,
+                        title: 'Transaction will be synced soon',
+                        showConfirmButton: false,
+                        timer: 3000
+                      })
 
-                    await waveTxn.wait();
+                    await waveTxn.wait().then(() => Swal.fire({
+                        position: 'top',
+                        icon: 'success',
+                        height: 100,
+                        title: 'Transaction have synced',
+                        showConfirmButton: false,
+                        timer: 3000
+                      }));
                     console.log("Mined -- ", waveTxn.hash);
                     handleOnChain();
 
@@ -99,7 +116,14 @@ const Rewards = () => {
                 console.log(error);
             }
         } else {
-            alert("U have no tokens to send");
+            Swal.fire({
+                position: 'top',
+                icon: 'error',
+                height: 100,
+                title: 'Insufficient tokens',
+                showConfirmButton: false,
+                timer: 1000
+              })
         }
     }
 
@@ -141,15 +165,15 @@ const Rewards = () => {
             <div className="statistics">
                 <div className="state">
                     <p className="stat-p">WPM</p>
-                    <span id="wpm">{wpm}</span>
+                    <div className="stat-reward" id="wpm">{wpm}</div>
                 </div>
                 <div className="state">
                     <p className="stat-p">Synced on-chain</p>
-                    <span id="chain">{onChain}</span>
+                    <div className="stat-reward" id="chain">{onChain}</div>
                 </div>
                 <div className="state">
                     <p className="stat-p">Pending</p>
-                    <span id="pending">{pending}</span>
+                    <div className="stat-reward" id="pending">{pending}</div>
 
                 </div>
                 <div className="send-button">

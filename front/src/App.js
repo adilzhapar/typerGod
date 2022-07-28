@@ -1,5 +1,8 @@
 import React from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content'
+
 import './App.css';
 import logo from './img/logo.svg';
 import rewardSvg from './img/reward.svg';
@@ -60,6 +63,9 @@ const links = [
   }
 ]
 
+const MySwal = withReactContent(Swal)
+
+
 const App = () => {
   let routes = useRoutes([
     { path: "/", element: <Typing /> },
@@ -89,6 +95,20 @@ const Sidebar = () => {
   const checkIfWalletIsConnected = async () => {
     try {
       const { ethereum } = window;
+
+      let chainId = await ethereum.request({ method: 'eth_chainId' });
+      const rinkebyChainId = "0x4";
+      if (chainId !== rinkebyChainId) {
+        // alert("You are not connected to the Rinkeby Test Network!");
+        MySwal.fire({
+          icon: 'warning',
+          width: 500,
+          height: 400,
+          title: 'Oops...',
+          text: 'You are not connected to the Rinkeby Test Network!',
+        })
+        return;
+      }
 
       if (!ethereum) {
         console.log("Make sure you have metamask!");
@@ -130,14 +150,28 @@ const Sidebar = () => {
       const { ethereum } = window;
 
       if (!ethereum) {
-        window.open("https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=ru", "_blank");
+        MySwal.fire({
+          icon: 'warning',
+          confirmButtonText: '<a target="_blank" class="swal-link" href="https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=ru">Install</a>',
+          title: 'Please, install Metamask',
+          showCancelButton: true,
+        })
+        
+        // window.open("https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=ru", "_blank");
         return;
       }
 
       let chainId = await ethereum.request({ method: 'eth_chainId' });
       const rinkebyChainId = "0x4";
       if (chainId !== rinkebyChainId) {
-        alert("You are not connected to the Rinkeby Test Network!");
+        // alert("You are not connected to the Rinkeby Test Network!");
+        MySwal.fire({
+          icon: 'warning',
+          width: 500,
+          height: 400,
+          title: 'Oops...',
+          text: 'You are not connected to the Rinkeby Test Network!',
+        })
         return;
       }
 
@@ -190,32 +224,28 @@ const Sidebar = () => {
 
   const handleOnChain = async () => {
     try {
-        const { ethereum } = window;
+      const { ethereum } = window;
 
-        if (ethereum) {
-            const provider = new ethers.providers.Web3Provider(ethereum);
-            const signer = provider.getSigner();
-            const typerGodContract = new ethers.Contract(contractAddress, contractABI, signer);
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const typerGodContract = new ethers.Contract(contractAddress, contractABI, signer);
 
-            const tokens = await typerGodContract.getTokens();
-            // console.log(tokens);
-            setOnChain(parseInt(String(tokens)));
-        } else {
-            console.log("Ethereum object doesn't exist!");
-        }
+        const tokens = await typerGodContract.getTokens();
+        // console.log(tokens);
+        setOnChain(parseInt(String(tokens)));
+      } else {
+        console.log("Ethereum object doesn't exist!");
+      }
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
-}
+  }
 
   const handleQuit = async () => {
     try {
       const { ethereum } = window;
 
-      if (!ethereum) {
-        alert("Get MetaMask!");
-        return;
-      }
 
       const accounts = await ethereum.request({ method: "eth_requestAccounts" });
 
@@ -230,17 +260,17 @@ const Sidebar = () => {
 
   const handleComponent = (component_name) => {
 
-    setComponentLinks((prevLinks) => 
+    setComponentLinks((prevLinks) =>
       prevLinks.map((obj) => {
-        if(obj.component === component_name){
-          return {...obj, class: "chosen-component-link"};
-        }else{
-          return {...obj, class: "component-link"};
+        if (obj.component === component_name) {
+          return { ...obj, class: "chosen-component-link" };
+        } else {
+          return { ...obj, class: "component-link" };
         }
       })
 
     );
-    
+
   }
 
   useEffect(() => {

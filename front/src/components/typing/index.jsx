@@ -236,7 +236,7 @@ const Typing = () => {
             attempts = response.data[0].attempts + 1;
             pending = response.data[0].pending + parseInt(netWpm / 10);
             highscore = response.data[0].highscore;
-            let img = response.data[0].img;
+            img = response.data[0].img;
 
             if (netWpm > highscore) {
                 highscore = netWpm;

@@ -27,6 +27,7 @@ h2 {
     margin-bottom: 1.5vh;
 }
 
+
 .statistics {
     padding: 50px;
     display: flex;
@@ -54,7 +55,7 @@ h2 {
     color:rgb(203, 203, 203);
 }
 
-span {
+.stat-reward {
     padding-top: 10px;
     font-size: 1.7vw;
     font-weight: 700;
@@ -69,4 +70,5 @@ span {
 #send {
     margin: 0;
     background: -webkit-linear-gradient(left, #60c657, #2B2BE7);
+    width: 95%;
 }
