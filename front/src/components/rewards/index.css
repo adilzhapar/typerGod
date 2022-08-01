@@ -1,6 +1,6 @@
 .reward-component {
     width: 78vw;
-    height: 100vh;
+    /* height: 100vh; */
     border-left: solid 0.5px #4d5459;
 }
 
@@ -71,4 +71,72 @@ h2 {
     margin: 0;
     background: -webkit-linear-gradient(left, #60c657, #2B2BE7);
     width: 95%;
+}
+
+.rewards-nft {
+    margin-left: 3vw;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 3vw;
+}
+
+.rewards-nft-object {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+
+.rewards-nft-object-div1 {
+    height: 400px;
+    background-size: contain;
+    border-radius:10px;
+    margin-bottom:1vh;
+    padding-right: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.rewards-nft-object-div1-p {
+    margin: 5px 0 10px 0;
+    font-weight: 700;
+}
+
+
+.rewards-nft-object-div2 {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin-bottom: 1vh;
+    margin-top: 0.5vh;
+}
+.rewards-nft-object-img {
+    width: 500px;
+    border-radius: 10px;
+}
+
+.rewards-nft-object-btn{
+    margin: 0;
+    width: 500px;
+    height: 40px;
+    font-size: 20px;
+    background: -webkit-linear-gradient(left, #60c657, #2B2BE7);
+}
+.rewards-nft-object-btn2{
+    margin: 0;
+    width: 500px;
+    height: 40px;
+    font-size: 20px;
+    background: #4d5459;
+    color:rgba(255, 255, 255, 0.7)
+}
+
+.rewards-nft-object-btn2:hover{
+    cursor: default;
+    font-size: 20px;
+    
 }
