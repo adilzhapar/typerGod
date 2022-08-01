@@ -75,7 +75,7 @@ const Rewards = () => {
                         title: 'Transaction will be synced soon',
                         showConfirmButton: false,
                         timer: 3000
-                      })
+                    })
 
                     await waveTxn.wait().then(() => Swal.fire({
                         position: 'top',
@@ -84,27 +84,26 @@ const Rewards = () => {
                         title: 'Transaction have synced',
                         showConfirmButton: false,
                         timer: 3000
-                      }));
+                    }));
                     console.log("Mined -- ", waveTxn.hash);
                     handleOnChain();
 
-                    let WpmSum, attempts, highscore;
-                    axios.get(`${BASE_URL}/users/${currentAccount}`).then((response) => {
-                        WpmSum = response.data[0].WpmSum;
-                        attempts = response.data[0].attempts;
-                        highscore = response.data[0].highscore;
+                    let WpmSum, attempts, highscore, img;
+                    
 
-                        axios.put(`${BASE_URL}/users/${currentAccount}`,
-                            {
-                                WpmSum,
-                                attempts,
-                                highscore,
-                                "pending" : 0,
-                            })
-                            .then((response) => {
-                                console.log(response);
-                            })
-                    });
+                    const newData = await axios.get(`${BASE_URL}/users/${currentAccount}`);
+                    WpmSum = newData.data[0].WpmSum;
+                    attempts = newData.data[0].attempts;
+                    highscore = newData.data[0].highscore;
+                    img = newData.data[0].img;
+                    await axios.put(`${BASE_URL}/users/${currentAccount}`,
+                        {
+                            WpmSum,
+                            attempts,
+                            highscore,
+                            "pending": 0,
+                            img,
+                        });
 
 
                     dispatch(setPending(0));
@@ -123,7 +122,7 @@ const Rewards = () => {
                 title: 'Insufficient tokens',
                 showConfirmButton: false,
                 timer: 1000
-              })
+            })
         }
     }
 

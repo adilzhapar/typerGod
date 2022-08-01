@@ -126,7 +126,17 @@ const Sidebar = () => {
         const account = accounts[0];
         console.log("Found an authorized account:", account);
         dispatch(setCurrentAccount(account));
-        handleOnChain();
+
+
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const typerGodContract = new ethers.Contract(contractAddress, contractABI, signer);
+        const tokens = await typerGodContract.getTokens();
+        console.log(tokens);
+        setOnChain(parseInt(String(tokens)));
+
+
+
 
 
         axios.get(`${BASE_URL}/users/${account}`).then((response) => {
@@ -156,7 +166,7 @@ const Sidebar = () => {
           title: 'Please, install Metamask',
           showCancelButton: true,
         })
-        
+
         // window.open("https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn?hl=ru", "_blank");
         return;
       }
@@ -178,8 +188,14 @@ const Sidebar = () => {
       const accounts = await ethereum.request({ method: "eth_requestAccounts" });
 
       console.log("Connected", accounts[0]);
-
       dispatch(setCurrentAccount(accounts[0]));
+
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      const signer = provider.getSigner();
+      const typerGodContract = new ethers.Contract(contractAddress, contractABI, signer);
+      const tokens = await typerGodContract.getTokens();
+      console.log(tokens);
+      setOnChain(parseInt(String(tokens)));
 
       axios.get(`${BASE_URL}/users/${accounts[0]}`).then((response) => {
 
@@ -222,26 +238,6 @@ const Sidebar = () => {
     }
   }
 
-  const handleOnChain = async () => {
-    try {
-      const { ethereum } = window;
-
-      if (ethereum) {
-        const provider = new ethers.providers.Web3Provider(ethereum);
-        const signer = provider.getSigner();
-        const typerGodContract = new ethers.Contract(contractAddress, contractABI, signer);
-
-        const tokens = await typerGodContract.getTokens();
-        // console.log(tokens);
-        setOnChain(parseInt(String(tokens)));
-      } else {
-        console.log("Ethereum object doesn't exist!");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   const handleQuit = async () => {
     try {
       const { ethereum } = window;
@@ -253,6 +249,7 @@ const Sidebar = () => {
       dispatch(setCurrentAccount(""));
       dispatch(setPending(0));
       dispatch(setWpm(0));
+      setOnChain(0);
     } catch (error) {
       console.log(error)
     }
@@ -275,6 +272,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     checkIfWalletIsConnected();
+
 
     console.log("Account after refresh: ", currentAccount)
 

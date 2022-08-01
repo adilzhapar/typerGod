@@ -67,8 +67,8 @@ const Typing = () => {
     const [inputWord, setInputWord] = useState("");
     const [words, setWords] = useState();
     const [counter, setCounter] = useState(0); // count how many words are typed
-    const [timeAmount, setTimeAmount] = useState(1); // time will decrease
-    const [time, setTime] = useState(1);
+    const [timeAmount, setTimeAmount] = useState(30); // time will decrease
+    const [time, setTime] = useState(30);
 
 
     const [isActive, setIsActive] = useState(true);
@@ -179,7 +179,8 @@ const Typing = () => {
         );
         setTimeAmount(current);
         setTime(current);
-
+        console.log(timeAmount);
+        console.log(time);
 
     }
 
@@ -193,7 +194,7 @@ const Typing = () => {
         )
     }
 
-    console.log("from the function", timesState)
+    // console.log("from the function", timesState)
 
     useEffect(() => {
         handleTextRefresh();
@@ -204,7 +205,6 @@ const Typing = () => {
     }, [timeAmount]);
 
     if (time <= 0) {
-
         let cnt = words.filter((word) => word.class === "green" && word.id <= counter);
         let mistakes = words.filter((word) => word.class === "red" && word.id <= counter).length;
         let gross = 0;
@@ -229,6 +229,7 @@ const Typing = () => {
         setPoints(parseInt(netWpm / 10));
 
         dispatch(addPoint(parseInt(netWpm / 10)));
+        
 
         let WpmSum, attempts, pending, highscore, img;
         axios.get(`${BASE_URL}/users/${currentAccount}`).then((response) => {
