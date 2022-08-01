@@ -135,8 +135,43 @@ h2 {
     color:rgba(255, 255, 255, 0.7)
 }
 
-.rewards-nft-object-btn2:hover{
+.rewards-nft-object-btn3 {
+    margin: 0;
+    width: 500px;
+    height: 40px;
+    font-size: 20px;
+    background: #4d5459;
+    color:rgba(255, 255, 255)
+}
+
+.rewards-nft-object-btn2:hover, .rewards-nft-object-btn3:hover{
     cursor: default;
     font-size: 20px;
     
+}
+
+.footer-a {
+    text-decoration: none;
+    font-size: 18px;
+    color:#60c657;
+}
+.footer-a:hover, .opensea-link:hover {
+    text-decoration: underline;
+}
+
+.opensea-link {
+    font-size: 18px;
+    background: -webkit-linear-gradient(left, #60c657, #2B2BE7);
+    border-radius:10px;
+    padding: 5px;
+    margin-left: 3vw;
+    margin-bottom: 2vh;
+    width: 200px;
+    display: flex;
+    justify-content:center;
+}
+
+#opensea-a {
+    text-decoration:none;
+    color: white !important;
 }

@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setPending } from '../../features/pendingSlice';
 
 import abi from "../../utils/TyperGod.json";
+import nftAbi from "../../utils/tgNFT.json";
 import { ethers } from "ethers";
 import axios from "axios";
 import nft1 from '../../img/NFTs/1.png';
@@ -68,6 +69,7 @@ const nftCards = [
     }
 ]
 
+const nftContractAddress = "0xF90B79031F6B20305fDEF1f6b22b37abCD506bAF";
 
 const Rewards = () => {
     const wpm = useSelector((state) => state.wpm.value);
@@ -76,10 +78,12 @@ const Rewards = () => {
     const dispatch = useDispatch();
     const currentAccount = useSelector((state) => state.currentAccount.value);
     const [nftItems, setNftItems] = useState(nftCards);
+    const [ownedNFT, setOwnedNFT] = useState(null);
 
     const contractAddress = "0xd3F1319F7b50a8ea22A36F7A2625d44310aeebf5";
 
     const contractABI = abi.abi;
+    const nftABI = nftAbi.abi;
 
     const checkIfWalletIsConnected = async () => {
         try {
@@ -98,6 +102,14 @@ const Rewards = () => {
                 const account = accounts[0];
                 console.log("Found an authorized account:", account);
 
+                const provider = new ethers.providers.Web3Provider(ethereum);
+                const signer = provider.getSigner();
+                const connectedContract = new ethers.Contract(nftContractAddress, nftABI, signer);
+
+                let owned = await connectedContract.getTotalMintedNFTUrls();
+                console.log("Owned nft-s ", owned);
+
+                setOwnedNFT(owned);
             } else {
                 console.log("No authorized account found");
             }
@@ -107,6 +119,45 @@ const Rewards = () => {
             console.log(error);
         }
     };
+
+    const handleMinting = async ({ link, price }) => {
+        try {
+            const { ethereum } = window;
+
+            if (ethereum) {
+                const provider = new ethers.providers.Web3Provider(ethereum);
+                const signer = provider.getSigner();
+                const connectedContract = new ethers.Contract(nftContractAddress, nftABI, signer);
+
+                const signerTG = provider.getSigner();
+                const typerGodContract = new ethers.Contract(contractAddress, contractABI, signerTG);
+
+                console.log("Going to pop wallet now to pay gas...")
+                let nftTxn = await connectedContract.makeAnEpicNFT(link);
+                // let minted = await connectedContract.getTotalNFTsMintedSoFar();
+
+                console.log("Mining...please wait.")
+                Swal.fire({
+                    position: 'top',
+                    icon: 'success',
+                    height: 100,
+                    title: 'Transaction approved! You will see your NFT in Opensea soon',
+                    footer: `<a class="footer-a" target="_blank" href="https://testnets.opensea.io/${currentAccount}">Go to OpenSea</a>`
+                })
+                await nftTxn.wait();
+                console.log(nftTxn);
+
+                let waveTxn = await typerGodContract.substractTokens(price);
+                await waveTxn.wait();
+                handleOnChain();
+                console.log(`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
+            } else {
+                console.log("Ethereum object doesn't exist!");
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     const handleTransaction = async () => {
         if (pending > 0) {
@@ -204,6 +255,8 @@ const Rewards = () => {
     }, []);
 
 
+
+
     return (
         <div className="reward-component">
             <div className="top">
@@ -233,6 +286,10 @@ const Rewards = () => {
                 </div>
             </div>
 
+            <div className="opensea-link">
+                <a id="opensea-a" target="_blank" href={`https://testnets.opensea.io/${currentAccount}`}>Go to OpenSea</a>
+            </div>
+
             <div className="rewards-nft">
                 {nftItems.map((item, index) => (
                     <div className="rewards-nft-object" key={index}>
@@ -242,22 +299,22 @@ const Rewards = () => {
                             <h2>{item.name}</h2>
                             <p className="rewards-nft-object-div1-p">{item.price} on-chain tokens required</p>
                         </div>
-{/* YOU STOPPED HERE, START FROM INTEGRATING HARDHAT */}
-                        {   
-                            // owned.includes(item.link) ? (
-                            //     <div className="rewards-nft-object-div2">
-                            //         <button className="rewards-nft-object-btn2">Already owned</button>
-                            //     </div>
-                            // ) :
-                            item.price <= pending ? (
+
+                        {
+                            ownedNFT?.includes(item.link) ? (
                                 <div className="rewards-nft-object-div2">
-                                    <button className="rewards-nft-object-btn">Mint NFT</button>
+                                    <button className="rewards-nft-object-btn3">Already owned</button>
                                 </div>
-                            ) : (
-                                <div className="rewards-nft-object-div2">
-                                    <button className="rewards-nft-object-btn2">Insufficient TGT tokens</button>
-                                </div>
-                            )
+                            ) :
+                                item.price <= onChain ? (
+                                    <div className="rewards-nft-object-div2">
+                                        <button onClick={() => handleMinting(item)} className="rewards-nft-object-btn">Mint NFT</button>
+                                    </div>
+                                ) : (
+                                    <div className="rewards-nft-object-div2">
+                                        <button className="rewards-nft-object-btn2">Insufficient TGT tokens</button>
+                                    </div>
+                                )
                         }
 
                     </div>

@@ -68,6 +68,8 @@ const Leaderboard = () => {
                         img: arr[Math.floor(Math.random() * 9) + 1]
                     });
                 });
+                
+                leadsCleaned.sort((a, b) => (a.tokens <= b.tokens) ? 1 : -1)
                 setLeaders(leadsCleaned);
                 // console.log("chain leads: ", leadsCleaned);
             } else {

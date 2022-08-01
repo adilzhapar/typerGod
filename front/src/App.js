@@ -32,7 +32,8 @@ import { ethers } from "ethers";
 import {
   BrowserRouter as Router,
   Link,
-  useRoutes
+  useRoutes,
+  useLocation
 
 } from "react-router-dom";
 
@@ -89,6 +90,8 @@ const Sidebar = () => {
   const arr = [pic0, pic1, pic2, pic3, pic4, pic5, pic6, pic7, pic8, pic9];
   const [componentLinks, setComponentLinks] = useState(links);
   const [onChain, setOnChain] = useState(0);
+  
+  const location = useLocation();
 
 
 
@@ -270,8 +273,18 @@ const Sidebar = () => {
 
   }
 
+  const handleLocation = () => {
+    let lc = location.pathname;
+    // console.log(lc);
+    lc === '/' ? handleComponent("Typing") 
+    : lc === '/leaderboard' 
+    ? handleComponent("Leaderboard") 
+    : handleComponent("Rewards");
+  }
+
   useEffect(() => {
     checkIfWalletIsConnected();
+    handleLocation();
 
 
     console.log("Account after refresh: ", currentAccount)
