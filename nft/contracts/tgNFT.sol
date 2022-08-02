@@ -14,7 +14,7 @@ contract tgNFT is ERC721URIStorage{
   Counters.Counter private _tokenIds;
   uint256 public constant NFT_AMOUNT = 100;
   uint256 public mintedNFT;
-  string[] public mintedNFTurls;
+  mapping(address => string[]) owners;
   constructor() ERC721 ("TyperGodNFT", "TGN") {
     console.log("This is my NFT contract. Woah!");
   }
@@ -35,7 +35,7 @@ contract tgNFT is ERC721URIStorage{
 
     // Set the NFTs data.
     _setTokenURI(newItemId, _uri);
-    mintedNFTurls.push(_uri);
+    owners[msg.sender].push(_uri);
     console.log("An NFT w/ ID %s has been minted to %s", newItemId, msg.sender);
 
 
@@ -51,6 +51,6 @@ contract tgNFT is ERC721URIStorage{
   }
 
   function getTotalMintedNFTUrls() external view returns (string[] memory){
-    return mintedNFTurls;
+    return owners[msg.sender];
   }
 }

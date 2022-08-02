@@ -69,7 +69,7 @@ const nftCards = [
     }
 ]
 
-const nftContractAddress = "0xF90B79031F6B20305fDEF1f6b22b37abCD506bAF";
+const nftContractAddress = "0xC0059Fea730EefD82679062E42d11bb82F688060";
 
 const Rewards = () => {
     const wpm = useSelector((state) => state.wpm.value);
@@ -99,6 +99,7 @@ const Rewards = () => {
             const accounts = await ethereum.request({ method: "eth_accounts" });
 
             if (accounts.length !== 0) {
+                handleOnChain();
                 const account = accounts[0];
                 console.log("Found an authorized account:", account);
 
@@ -112,8 +113,8 @@ const Rewards = () => {
                 setOwnedNFT(owned);
             } else {
                 console.log("No authorized account found");
+                setOwnedNFT(null);
             }
-            handleOnChain();
 
         } catch (error) {
             console.log(error);
@@ -254,7 +255,7 @@ const Rewards = () => {
         checkIfWalletIsConnected();
     }, []);
 
-
+    console.log(currentAccount);
 
 
     return (
@@ -300,21 +301,24 @@ const Rewards = () => {
                             <p className="rewards-nft-object-div1-p">{item.price} on-chain tokens required</p>
                         </div>
 
-                        {
-                            ownedNFT?.includes(item.link) ? (
-                                <div className="rewards-nft-object-div2">
-                                    <button className="rewards-nft-object-btn3">Already owned</button>
-                                </div>
-                            ) :
-                                item.price <= onChain ? (
+                        {ownedNFT?.includes(item.link)
+                                ? (
                                     <div className="rewards-nft-object-div2">
-                                        <button onClick={() => handleMinting(item)} className="rewards-nft-object-btn">Mint NFT</button>
-                                    </div>
-                                ) : (
-                                    <div className="rewards-nft-object-div2">
-                                        <button className="rewards-nft-object-btn2">Insufficient TGT tokens</button>
+                                        <button className="rewards-nft-object-btn3">Already owned</button>
                                     </div>
                                 )
+                                :
+                                item.price <= onChain
+                                    ? (
+                                        <div className="rewards-nft-object-div2">
+                                            <button onClick={() => handleMinting(item)} className="rewards-nft-object-btn">Mint NFT</button>
+                                        </div>
+                                    )
+                                    : (
+                                        <div className="rewards-nft-object-div2">
+                                            <button className="rewards-nft-object-btn2">Insufficient TGT tokens</button>
+                                        </div>
+                                    )
                         }
 
                     </div>
