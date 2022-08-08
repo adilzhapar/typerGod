@@ -62,6 +62,7 @@ const faq = [
 const Typing = () => {
     const inputReference = useRef(null);
     const wpm = useSelector((state) => state.wpm.value);
+    
     const dispatch = useDispatch();
 
     const [inputWord, setInputWord] = useState("");
@@ -204,6 +205,7 @@ const Typing = () => {
 
     }, [timeAmount]);
 
+
     if (time <= 0) {
         let cnt = words.filter((word) => word.class === "green" && word.id <= counter);
         let mistakes = words.filter((word) => word.class === "red" && word.id <= counter).length;
@@ -296,6 +298,7 @@ const Typing = () => {
 
     return (
         <div className="typing-all">
+            
             <div className="typing-top">
                 <div className="typing-top-left">
                     <img src={keyboardSvg} alt="keyboard" />

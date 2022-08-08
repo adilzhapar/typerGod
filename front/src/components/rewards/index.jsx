@@ -88,6 +88,7 @@ const Rewards = () => {
     const checkIfWalletIsConnected = async () => {
         try {
             const { ethereum } = window;
+            handleOnChain();
 
             if (!ethereum) {
                 console.log("Make sure you have metamask!");
@@ -99,18 +100,18 @@ const Rewards = () => {
             const accounts = await ethereum.request({ method: "eth_accounts" });
 
             if (accounts.length !== 0) {
-                handleOnChain();
                 const account = accounts[0];
                 console.log("Found an authorized account:", account);
-
+                
                 const provider = new ethers.providers.Web3Provider(ethereum);
                 const signer = provider.getSigner();
                 const connectedContract = new ethers.Contract(nftContractAddress, nftABI, signer);
-
+                
                 let owned = await connectedContract.getTotalMintedNFTUrls();
                 console.log("Owned nft-s ", owned);
-
+                
                 setOwnedNFT(owned);
+                handleOnChain();
             } else {
                 console.log("No authorized account found");
                 setOwnedNFT(null);
@@ -148,8 +149,9 @@ const Rewards = () => {
                 await nftTxn.wait();
                 console.log(nftTxn);
 
-                let waveTxn = await typerGodContract.substractTokens(price);
-                await waveTxn.wait();
+                
+                await typerGodContract.substractTokens(price);
+                // await waveTxn.wait();
                 handleOnChain();
                 console.log(`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
             } else {
@@ -253,9 +255,14 @@ const Rewards = () => {
 
     useEffect(() => {
         checkIfWalletIsConnected();
+        // handleOnChain();
     }, []);
 
-    console.log(currentAccount);
+    useEffect(() => {
+        handleOnChain();
+    }, [onChain])
+
+    
 
 
     return (
