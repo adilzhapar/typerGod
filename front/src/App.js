@@ -100,15 +100,15 @@ const Sidebar = () => {
       const { ethereum } = window;
 
       let chainId = await ethereum.request({ method: 'eth_chainId' });
-      const rinkebyChainId = "0x4";
-      if (chainId !== rinkebyChainId) {
-        // alert("You are not connected to the Rinkeby Test Network!");
+      const goerliChainId = "0x5";
+      if (chainId !== goerliChainId) {
+        // alert("You are not connected to the goerli Test Network!");
         MySwal.fire({
           icon: 'warning',
           width: 500,
           height: 400,
           title: 'Oops...',
-          text: 'You are not connected to the Rinkeby Test Network!',
+          text: 'You are not connected to the goerli Test Network!',
         })
         return;
       }
@@ -175,15 +175,15 @@ const Sidebar = () => {
       }
 
       let chainId = await ethereum.request({ method: 'eth_chainId' });
-      const rinkebyChainId = "0x4";
-      if (chainId !== rinkebyChainId) {
-        // alert("You are not connected to the Rinkeby Test Network!");
+      const goerliChainId = "0x5";
+      if (chainId !== goerliChainId) {
+        // alert("You are not connected to the goerli Test Network!");
         MySwal.fire({
           icon: 'warning',
           width: 500,
           height: 400,
           title: 'Oops...',
-          text: 'You are not connected to the Rinkeby Test Network!',
+          text: 'You are not connected to the goerli Test Network!',
         })
         return;
       }

@@ -153,7 +153,7 @@ const Rewards = () => {
                 await typerGodContract.substractTokens(price);
                 // await waveTxn.wait();
                 handleOnChain();
-                console.log(`Mined, see transaction: https://rinkeby.etherscan.io/tx/${nftTxn.hash}`);
+                console.log(`Mined, see transaction: https://goerli.etherscan.io/tx/${nftTxn.hash}`);
             } else {
                 console.log("Ethereum object doesn't exist!");
             }

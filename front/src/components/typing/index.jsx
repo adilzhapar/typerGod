@@ -38,7 +38,7 @@ const faq = [
     },
     {
         "question": "How could I?",
-        "answer": "Install 'Metamask' extension, create wallet, choose 'Rinkeby Testnet Network' and you are free to go.",
+        "answer": "Install 'Metamask' extension, create wallet, choose 'Goerli Testnet Network' and you are free to go.",
         "show" : false
     },
     {
